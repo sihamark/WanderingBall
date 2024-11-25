@@ -5,6 +5,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
+import kotlinx.datetime.Clock
 
 class MeditationViewModel : ViewModel() {
 
@@ -12,22 +19,98 @@ class MeditationViewModel : ViewModel() {
         private set
 
     private var hidingJob: Job? = null
+    private var playJob: Job? = null
+    private var isDecreasing = false
+
+    fun play() {
+        state = state.copy(isPlaying = true)
+        playJob?.cancel()
+        playJob = viewModelScope.launch(Dispatchers.Default) {
+            var latestTimestamp = Clock.System.now()
+            while (isActive) {
+                delay(10)
+                val adjust: Float.(Float) -> Float = if (isDecreasing) {
+                    { minus(it) }
+                } else {
+                    { plus(it) }
+                }
+                val newTimeStamp = Clock.System.now()
+                val delta = newTimeStamp.toEpochMilliseconds() -
+                        latestTimestamp.toEpochMilliseconds()
+                latestTimestamp = newTimeStamp
+                val deltaPosition = state.velocity * (delta / 1000f)
+                val newPosition = state.position.adjust(deltaPosition)
+                val adjustedPosition = if (newPosition > 1) {
+                    isDecreasing = true
+                    1 - (newPosition - 1)
+                } else if (newPosition < 0) {
+                    isDecreasing = false
+                    -newPosition
+                } else {
+                    newPosition
+                }
+                state = state.copy(position = adjustedPosition)
+            }
+        }
+    }
+
+    fun pause() {
+        state = state.copy(isPlaying = false)
+        playJob?.cancel()
+    }
 
     fun showSettingsButton() {
         state = state.copy(isSettingsButtonVisible = true)
         hidingJob?.cancel()
-        hidingJob = viewmodelScope.launch {
+        hidingJob = viewModelScope.launch {
             delay(2000)
             state = state.copy(isSettingsButtonVisible = false)
         }
     }
 
+    fun showSettingsDialog() {
+        state = state.copy(isSettingsDialogVisible = true)
+    }
+
+    fun hideSettingsDialog() {
+        state = state.copy(isSettingsDialogVisible = false)
+    }
+
+    fun setVelocity(velocity: Float) {
+        state = state.copy(velocity = velocity.coerceIn(velocityRange))
+    }
+
+    fun setSize(size: Float) {
+        state = state.copy(size = size.coerceIn(sizeRange))
+    }
+
+    fun togglePlay() {
+        if (state.isPlaying) {
+            pause()
+        } else {
+            play()
+        }
+    }
+
     data class State(
-        val velocity: Float = 10f,
+        @FloatRange(from = VELOCITY_MIN.toDouble(), to = VELOCITY_MAX.toDouble())
+        val velocity: Float = 1f,
         @FloatRange(from = 0.0, to = 1.0)
         val position: Float = 0f,
+        @FloatRange(from = SIZE_MIN.toDouble(), to = SIZE_MAX.toDouble())
+        val size: Float = 50f,
         val isPlaying: Boolean = false,
         val isSettingsButtonVisible: Boolean = false,
         val isSettingsDialogVisible: Boolean = false
     )
+
+    companion object {
+        const val VELOCITY_MIN = 0.001f
+        const val VELOCITY_MAX = 2.0f
+        val velocityRange = VELOCITY_MIN..VELOCITY_MAX
+
+        const val SIZE_MIN = 10.0f
+        const val SIZE_MAX = 100.0f
+        val sizeRange = SIZE_MIN..SIZE_MAX
+    }
 }
