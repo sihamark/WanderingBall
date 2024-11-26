@@ -1,6 +1,7 @@
+@file:JvmName("Meditation")
+
 package eu.heha.meditation
 
-import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import io.github.aakira.napier.DebugAntilog

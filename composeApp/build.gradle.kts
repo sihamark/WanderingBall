@@ -112,7 +112,7 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "eu.heha.meditation.MainKt"
+        mainClass = "eu.heha.meditation.Meditation"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
