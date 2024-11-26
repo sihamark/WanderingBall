@@ -38,6 +38,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import eu.heha.meditation.ui.BounceViewModel.ColorValue
+import eu.heha.meditation.ui.BounceViewModel.Companion.color
 
 @Composable
 fun BouncePane(
@@ -47,7 +49,8 @@ fun BouncePane(
     onClickHideSettingsDialog: () -> Unit,
     onClickTogglePlay: () -> Unit,
     onChangeVelocity: (Float) -> Unit,
-    onChangeSize: (Float) -> Unit
+    onChangeSize: (Float) -> Unit,
+    onChangePrimaryColor: (ColorValue) -> Unit
 ) {
     Scaffold {
         var parentWidth by remember { mutableStateOf(0f) }
@@ -64,16 +67,13 @@ fun BouncePane(
                     parentWidth = with(density) { it.size.width.toDp().value }
                 }
         ) {
-            Surface(
-                color = MaterialTheme.colorScheme.primary,
-                shape = CircleShape,
+            ColorBlob(
+                color = state.primaryColor.color(),
+                size = state.size,
                 modifier = Modifier
-                    .size(state.size.dp)
                     .offset(x = ((parentWidth - state.size) * state.position).dp)
                     .align(Alignment.CenterStart)
-            ) {
-                // Empty
-            }
+            )
 
             AnimatedVisibility(
                 visible = state.isQuickSettingsVisible,
@@ -92,7 +92,9 @@ fun BouncePane(
                     velocity = state.velocity,
                     onChangeVelocity = onChangeVelocity,
                     size = state.size,
-                    onChangeSize = onChangeSize
+                    onChangeSize = onChangeSize,
+                    primaryColor = state.primaryColor,
+                    onPrimaryColorChange = onChangePrimaryColor
                 )
             }
         }
@@ -130,7 +132,9 @@ private fun SettingsDialog(
     velocity: Float,
     onChangeVelocity: (Float) -> Unit,
     size: Float,
-    onChangeSize: (Float) -> Unit
+    onChangeSize: (Float) -> Unit,
+    primaryColor: ColorValue,
+    onPrimaryColorChange: (ColorValue) -> Unit
 ) {
     Dialog(onDismissRequest = onClickHideSettingsDialog) {
         Surface(
@@ -155,16 +159,45 @@ private fun SettingsDialog(
                     valueRange = BounceViewModel.sizeRange
                 )
                 Spacer(Modifier.height(8.dp))
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text("Circle Color")
-                    Spacer(Modifier.width(8.dp))
-                    ColorBlob(BounceViewModel.primaryColors.first())
-                }
+                Text("Circle Color")
                 Spacer(Modifier.height(4.dp))
-                LazyRow {
-                    items(BounceViewModel.primaryColors) { color ->
-                        ColorBlob(color, modifier = Modifier.padding(horizontal = 2.dp))
-                    }
+                ColorSelection(
+                    colors = BounceViewModel.primaryColors,
+                    selectedColor = primaryColor,
+                    onClickColor = onPrimaryColorChange,
+                    modifier = Modifier.size(24.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+fun ColorSelection(
+    colors: List<ColorValue>,
+    selectedColor: ColorValue?,
+    onClickColor: (ColorValue) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyRow {
+        items(colors) { color ->
+            Surface(
+                onClick = { onClickColor(color) },
+                shape = CircleShape,
+                modifier = modifier
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center,
+                    modifier = Modifier.padding(horizontal = 2.dp)
+                ) {
+                    ColorBlob(
+                        color = if (selectedColor == color) MaterialTheme.colorScheme.onSurface else Color.Transparent,
+                        size = 18f
+                    )
+                    ColorBlob(
+                        color = color.color(),
+                        size = 16f
+                    )
                 }
             }
         }
@@ -172,13 +205,12 @@ private fun SettingsDialog(
 }
 
 @Composable
-private fun ColorBlob(color: Color, modifier: Modifier = Modifier) {
+private fun ColorBlob(color: Color, size: Float = 16f, modifier: Modifier = Modifier) {
     Surface(
         color = color,
         shape = CircleShape,
-        modifier = modifier.size(16.dp)
+        modifier = modifier.size(size.dp)
     ) {
         // Empty
     }
-
 }

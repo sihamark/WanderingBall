@@ -19,6 +19,7 @@ fun BounceRoute() {
         onClickHideSettingsDialog = viewModel::hideSettingsDialog,
         onClickTogglePlay = viewModel::togglePlay,
         onChangeVelocity = viewModel::setVelocity,
-        onChangeSize = viewModel::setSize
+        onChangeSize = viewModel::setSize,
+        onChangePrimaryColor = viewModel::setPrimaryColor
     )
 }
