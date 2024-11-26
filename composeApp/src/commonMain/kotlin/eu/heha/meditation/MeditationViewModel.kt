@@ -59,7 +59,7 @@ class MeditationViewModel : ViewModel() {
         playJob?.cancel()
     }
 
-    fun showSettingsButton() {
+    fun showQuickSettings() {
         state = state.copy(isSettingsButtonVisible = true)
         hidingJob?.cancel()
         hidingJob = viewModelScope.launch {
