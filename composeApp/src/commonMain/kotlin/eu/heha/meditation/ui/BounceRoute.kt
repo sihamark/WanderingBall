@@ -20,6 +20,7 @@ fun BounceRoute() {
         onClickTogglePlay = viewModel::togglePlay,
         onChangeVelocity = viewModel::setVelocity,
         onChangeSize = viewModel::setSize,
-        onChangePrimaryColor = viewModel::setPrimaryColor
+        onChangePrimaryColor = viewModel::setPrimaryColor,
+        onChangeBackgroundColor = viewModel::setBackgroundColor
     )
 }

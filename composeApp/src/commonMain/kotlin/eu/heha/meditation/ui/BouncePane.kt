@@ -38,8 +38,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import eu.heha.meditation.ui.BounceViewModel.ColorValue
-import eu.heha.meditation.ui.BounceViewModel.Companion.color
+import eu.heha.meditation.ui.BounceViewModel.Companion.backgroundColors
+import eu.heha.meditation.ui.BounceViewModel.Companion.primaryColors
 
 @Composable
 fun BouncePane(
@@ -50,9 +50,12 @@ fun BouncePane(
     onClickTogglePlay: () -> Unit,
     onChangeVelocity: (Float) -> Unit,
     onChangeSize: (Float) -> Unit,
-    onChangePrimaryColor: (ColorValue) -> Unit
+    onChangePrimaryColor: (ColorValue) -> Unit,
+    onChangeBackgroundColor: (ColorValue) -> Unit
 ) {
-    Scaffold {
+    Scaffold(
+        containerColor = state.backgroundColor.color()
+    ) {
         var parentWidth by remember { mutableStateOf(0f) }
         val density = LocalDensity.current
         Box(
@@ -94,7 +97,9 @@ fun BouncePane(
                     size = state.size,
                     onChangeSize = onChangeSize,
                     primaryColor = state.primaryColor,
-                    onPrimaryColorChange = onChangePrimaryColor
+                    onPrimaryColorChange = onChangePrimaryColor,
+                    backgroundColor = state.backgroundColor,
+                    onBackgroundColorChange = onChangeBackgroundColor
                 )
             }
         }
@@ -134,7 +139,9 @@ private fun SettingsDialog(
     size: Float,
     onChangeSize: (Float) -> Unit,
     primaryColor: ColorValue,
-    onPrimaryColorChange: (ColorValue) -> Unit
+    onPrimaryColorChange: (ColorValue) -> Unit,
+    backgroundColor: ColorValue,
+    onBackgroundColorChange: (ColorValue) -> Unit
 ) {
     Dialog(onDismissRequest = onClickHideSettingsDialog) {
         Surface(
@@ -162,10 +169,17 @@ private fun SettingsDialog(
                 Text("Circle Color")
                 Spacer(Modifier.height(4.dp))
                 ColorSelection(
-                    colors = BounceViewModel.primaryColors,
+                    colors = primaryColors,
                     selectedColor = primaryColor,
-                    onClickColor = onPrimaryColorChange,
-                    modifier = Modifier.size(24.dp)
+                    onClickColor = onPrimaryColorChange
+                )
+                Spacer(Modifier.height(8.dp))
+                Text("Background Color")
+                Spacer(Modifier.height(4.dp))
+                ColorSelection(
+                    colors = backgroundColors,
+                    selectedColor = backgroundColor,
+                    onClickColor = onBackgroundColorChange
                 )
             }
         }
@@ -179,12 +193,11 @@ fun ColorSelection(
     onClickColor: (ColorValue) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyRow {
+    LazyRow(modifier = modifier) {
         items(colors) { color ->
             Surface(
                 onClick = { onClickColor(color) },
-                shape = CircleShape,
-                modifier = modifier
+                shape = CircleShape
             ) {
                 Box(
                     contentAlignment = Alignment.Center,

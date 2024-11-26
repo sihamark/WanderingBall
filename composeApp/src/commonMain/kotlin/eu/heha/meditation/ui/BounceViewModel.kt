@@ -2,12 +2,9 @@ package eu.heha.meditation.ui
 
 import androidx.annotation.FloatRange
 import androidx.compose.material3.ColorScheme
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -100,9 +97,8 @@ class BounceViewModel : ViewModel() {
         state = state.copy(primaryColor = colorValue)
     }
 
-    sealed interface ColorValue {
-        data class Specific(val color: Color) : ColorValue
-        data class Theme(val fromTheme: (ColorScheme) -> Color) : ColorValue
+    fun setBackgroundColor(colorValue: ColorValue) {
+        state = state.copy(backgroundColor = colorValue)
     }
 
     data class State(
@@ -112,8 +108,8 @@ class BounceViewModel : ViewModel() {
         val position: Float = 0f,
         @FloatRange(from = SIZE_MIN.toDouble(), to = SIZE_MAX.toDouble())
         val size: Float = 50f,
-        val primaryColor: ColorValue = ColorValue.Theme(ColorScheme::primary),
-        val backgroundColor: ColorValue = ColorValue.Theme(ColorScheme::background),
+        val primaryColor: ColorValue = themeColor(ColorScheme::primary),
+        val backgroundColor: ColorValue = themeColor(ColorScheme::background),
         val isPlaying: Boolean = false,
         val isQuickSettingsVisible: Boolean = false,
         val isSettingsDialogVisible: Boolean = false
@@ -129,7 +125,7 @@ class BounceViewModel : ViewModel() {
         val sizeRange = SIZE_MIN..SIZE_MAX
 
         val primaryColors = listOf(
-            ColorValue.Theme(ColorScheme::primary),
+            themeColor(ColorScheme::primary),
             specificColor(0xfff52582),
             specificColor(0xff25f597),
             specificColor(0xff82f525),
@@ -140,16 +136,16 @@ class BounceViewModel : ViewModel() {
             specificColor(0xff7825f5)
         )
 
-        private fun specificColor(color: Long) = ColorValue.Specific(Color(color))
-
-        @Composable
-        fun ColorValue.color(): Color = when (this) {
-            is ColorValue.Specific -> color
-            is ColorValue.Theme -> {
-                val colorScheme = MaterialTheme.colorScheme
-                fromTheme(colorScheme)
-            }
-        }
+        val backgroundColors = listOf(
+            themeColor(ColorScheme::background),
+            specificColor(0xfff52582),
+            specificColor(0xff25f597),
+            specificColor(0xff82f525),
+            specificColor(0xfff59725),
+            specificColor(0xfff52f25),
+            specificColor(0xff253bf5),
+            specificColor(0xfff5e025),
+            specificColor(0xff7825f5)
+        )
     }
-
 }
