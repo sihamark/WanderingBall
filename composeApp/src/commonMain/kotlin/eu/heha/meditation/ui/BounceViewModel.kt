@@ -1,9 +1,10 @@
-package eu.heha.meditation
+package eu.heha.meditation.ui
 
 import androidx.annotation.FloatRange
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -13,12 +14,12 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 
-class MeditationViewModel : ViewModel() {
+class BounceViewModel : ViewModel() {
 
     var state by mutableStateOf(State())
         private set
 
-    private var hidingJob: Job? = null
+    private var quickSettingsHidingJob: Job? = null
     private var playJob: Job? = null
     private var isDecreasing = false
 
@@ -60,11 +61,11 @@ class MeditationViewModel : ViewModel() {
     }
 
     fun showQuickSettings() {
-        state = state.copy(isSettingsButtonVisible = true)
-        hidingJob?.cancel()
-        hidingJob = viewModelScope.launch {
+        state = state.copy(isQuickSettingsVisible = true)
+        quickSettingsHidingJob?.cancel()
+        quickSettingsHidingJob = viewModelScope.launch {
             delay(2000)
-            state = state.copy(isSettingsButtonVisible = false)
+            state = state.copy(isQuickSettingsVisible = false)
         }
     }
 
@@ -94,13 +95,13 @@ class MeditationViewModel : ViewModel() {
 
     data class State(
         @FloatRange(from = VELOCITY_MIN.toDouble(), to = VELOCITY_MAX.toDouble())
-        val velocity: Float = 1f,
+        val velocity: Float = .5f,
         @FloatRange(from = 0.0, to = 1.0)
         val position: Float = 0f,
         @FloatRange(from = SIZE_MIN.toDouble(), to = SIZE_MAX.toDouble())
         val size: Float = 50f,
         val isPlaying: Boolean = false,
-        val isSettingsButtonVisible: Boolean = false,
+        val isQuickSettingsVisible: Boolean = false,
         val isSettingsDialogVisible: Boolean = false
     )
 
@@ -112,5 +113,16 @@ class MeditationViewModel : ViewModel() {
         const val SIZE_MIN = 10.0f
         const val SIZE_MAX = 100.0f
         val sizeRange = SIZE_MIN..SIZE_MAX
+
+        val primaryColors = listOf(
+            Color(0xfff52582),
+            Color(0xff25f597),
+            Color(0xff82f525),
+            Color(0xfff59725),
+            Color(0xfff52f25),
+            Color(0xff253bf5),
+            Color(0xfff5e025),
+            Color(0xff7825f5),
+        )
     }
 }

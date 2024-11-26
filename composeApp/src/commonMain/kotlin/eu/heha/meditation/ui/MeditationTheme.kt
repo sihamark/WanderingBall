@@ -1,4 +1,4 @@
-package eu.heha.meditation
+package eu.heha.meditation.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme

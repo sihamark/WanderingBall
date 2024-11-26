@@ -3,11 +3,10 @@ package eu.heha.meditation.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.viewmodel.compose.viewModel
-import eu.heha.meditation.MeditationViewModel
 
 @Composable
 fun BounceRoute() {
-    val viewModel = viewModel { MeditationViewModel() }
+    val viewModel = viewModel { BounceViewModel() }
 
     LaunchedEffect(Unit) {
         viewModel.play()

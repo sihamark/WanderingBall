@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
@@ -31,15 +33,15 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import eu.heha.meditation.MeditationViewModel
 
 @Composable
 fun BouncePane(
-    state: MeditationViewModel.State,
+    state: BounceViewModel.State,
     onClickShowQuickSettings: () -> Unit,
     onClickShowSettingsDialog: () -> Unit,
     onClickHideSettingsDialog: () -> Unit,
@@ -74,7 +76,7 @@ fun BouncePane(
             }
 
             AnimatedVisibility(
-                visible = state.isSettingsButtonVisible,
+                visible = state.isQuickSettingsVisible,
                 modifier = Modifier.align(Alignment.TopEnd)
             ) {
                 QuickSettings(
@@ -143,16 +145,40 @@ private fun SettingsDialog(
                 Slider(
                     value = velocity,
                     onValueChange = onChangeVelocity,
-                    valueRange = MeditationViewModel.velocityRange
+                    valueRange = BounceViewModel.velocityRange
                 )
                 Spacer(Modifier.height(8.dp))
                 Text("Size: $size")
                 Slider(
                     value = size,
                     onValueChange = onChangeSize,
-                    valueRange = MeditationViewModel.sizeRange
+                    valueRange = BounceViewModel.sizeRange
                 )
+                Spacer(Modifier.height(8.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text("Circle Color")
+                    Spacer(Modifier.width(8.dp))
+                    ColorBlob(BounceViewModel.primaryColors.first())
+                }
+                Spacer(Modifier.height(4.dp))
+                LazyRow {
+                    items(BounceViewModel.primaryColors) { color ->
+                        ColorBlob(color, modifier = Modifier.padding(horizontal = 2.dp))
+                    }
+                }
             }
         }
     }
+}
+
+@Composable
+private fun ColorBlob(color: Color, modifier: Modifier = Modifier) {
+    Surface(
+        color = color,
+        shape = CircleShape,
+        modifier = modifier.size(16.dp)
+    ) {
+        // Empty
+    }
+
 }
