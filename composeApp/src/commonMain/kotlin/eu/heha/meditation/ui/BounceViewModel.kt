@@ -126,6 +126,11 @@ class BounceViewModel : ViewModel() {
 
         val primaryColors = listOf(
             themeColor(ColorScheme::primary),
+            themeColor(ColorScheme::secondary),
+            themeColor(ColorScheme::tertiary),
+            themeColor(ColorScheme::onPrimaryContainer),
+            themeColor(ColorScheme::onSecondaryContainer),
+            themeColor(ColorScheme::onTertiaryContainer),
             specificColor(0xfff52582),
             specificColor(0xff25f597),
             specificColor(0xff82f525),
@@ -138,6 +143,11 @@ class BounceViewModel : ViewModel() {
 
         val backgroundColors = listOf(
             themeColor(ColorScheme::background),
+            themeColor(ColorScheme::surface),
+            themeColor(ColorScheme::surfaceVariant),
+            themeColor(ColorScheme::primaryContainer),
+            themeColor(ColorScheme::secondaryContainer),
+            themeColor(ColorScheme::tertiaryContainer),
             specificColor(0xfff52582),
             specificColor(0xff25f597),
             specificColor(0xff82f525),

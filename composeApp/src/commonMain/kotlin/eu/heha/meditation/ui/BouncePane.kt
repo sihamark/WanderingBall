@@ -197,7 +197,8 @@ fun ColorSelection(
         items(colors) { color ->
             Surface(
                 onClick = { onClickColor(color) },
-                shape = CircleShape
+                shape = CircleShape,
+                modifier = Modifier.width(24.dp)
             ) {
                 Box(
                     contentAlignment = Alignment.Center,
