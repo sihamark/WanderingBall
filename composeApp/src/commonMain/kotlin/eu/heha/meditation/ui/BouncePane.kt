@@ -71,8 +71,12 @@ fun BouncePane(
         modifier = Modifier
             .focusRequester(parentFocus)
             .onKeyEvent {
-                if (it.key == Key.Spacebar && it.type == KeyEventType.KeyUp) {
-                    onClickTogglePlay()
+                if (it.key == Key.Spacebar) {
+                    if (it.type == KeyEventType.KeyDown) {
+                        onClickTogglePlay()
+                    }
+                } else if (it.key != Key.Unknown) {
+                    onClickShowQuickSettings()
                 }
                 false
             }
@@ -80,10 +84,12 @@ fun BouncePane(
     ) {
         var parentWidth by remember { mutableStateOf(0f) }
         val density = LocalDensity.current
-        LaunchedEffect(state) {
-            if (!state.isQuickSettingsVisible && !state.isSettingsDialogVisible) {
-                parentFocus.requestFocus()
-            }
+        LaunchedEffect(
+            state.isPlaying,
+            state.isQuickSettingsVisible,
+            state.isSettingsDialogVisible
+        ) {
+            parentFocus.requestFocus()
         }
         Box(
             modifier = Modifier
