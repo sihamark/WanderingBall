@@ -128,34 +128,57 @@ class BounceViewModel : ViewModel() {
             themeColor(ColorScheme::primary),
             themeColor(ColorScheme::secondary),
             themeColor(ColorScheme::tertiary),
-            themeColor(ColorScheme::onPrimaryContainer),
-            themeColor(ColorScheme::onSecondaryContainer),
-            themeColor(ColorScheme::onTertiaryContainer),
-            specificColor(0xfff52582),
-            specificColor(0xff25f597),
-            specificColor(0xff82f525),
-            specificColor(0xfff59725),
-            specificColor(0xfff52f25),
-            specificColor(0xff253bf5),
-            specificColor(0xfff5e025),
-            specificColor(0xff7825f5)
+            specificColor(0xFF000000), // Black
+            specificColor(0xFFFFFFFF), // White
+            specificColor(0xFFF44336), // Red 500
+            specificColor(0xFFE91E63), // Pink 500
+            specificColor(0xFF9C27B0), // Purple 500
+            specificColor(0xFF673AB7), // Deep Purple 500
+            specificColor(0xFF3F51B5), // Indigo 500
+            specificColor(0xFF2196F3), // Blue 500
+            specificColor(0xFF03A9F4), // Light Blue 500
+            specificColor(0xFF00BCD4), // Cyan 500
+            specificColor(0xFF009688), // Teal 500
+            specificColor(0xFF4CAF50), // Green 500
+            specificColor(0xFF8BC34A), // Light Green 500
+            specificColor(0xFFCDDC39), // Lime 500
+            specificColor(0xFFFFEB3B), // Yellow 500
+            specificColor(0xFFFFC107), // Amber 500
+            specificColor(0xFFFF9800), // Orange 500
+            specificColor(0xFFFF5722), // Deep Orange 500
+            specificColor(0xFF795548), // Brown 500
+            specificColor(0xFF9E9E9E), // Grey 500
+            specificColor(0xFF607D8B)  // Blue Grey 500
         )
 
         val backgroundColors = listOf(
             themeColor(ColorScheme::background),
-            themeColor(ColorScheme::surface),
-            themeColor(ColorScheme::surfaceVariant),
-            themeColor(ColorScheme::primaryContainer),
-            themeColor(ColorScheme::secondaryContainer),
-            themeColor(ColorScheme::tertiaryContainer),
-            specificColor(0xfff52582),
-            specificColor(0xff25f597),
-            specificColor(0xff82f525),
-            specificColor(0xfff59725),
-            specificColor(0xfff52f25),
-            specificColor(0xff253bf5),
-            specificColor(0xfff5e025),
-            specificColor(0xff7825f5)
+            specificColor(0xFF000000), // Black
+            specificColor(0xFFFFFFFF), // White
+            specificColor(0xFFBDBDBD), // Grey 400
+            specificColor(0xFF757575), // Grey 600
+            specificColor(0xFF616161), // Grey 700
+            specificColor(0xFF424242), // Grey 800
+            specificColor(0xFF212121), // Grey 900
+            specificColor(0xFFF44336), // Red 500
+            specificColor(0xFFE91E63), // Pink 500
+            specificColor(0xFF9C27B0), // Purple 500
+            specificColor(0xFF673AB7), // Deep Purple 500
+            specificColor(0xFF3F51B5), // Indigo 500
+            specificColor(0xFF2196F3), // Blue 500
+            specificColor(0xFF03A9F4), // Light Blue 500
+            specificColor(0xFF00BCD4), // Cyan 500
+            specificColor(0xFF009688), // Teal 500
+            specificColor(0xFF4CAF50), // Green 500
+            specificColor(0xFF8BC34A), // Light Green 500
+            specificColor(0xFFCDDC39), // Lime 500
+            specificColor(0xFFFFEB3B), // Yellow 500
+            specificColor(0xFFFFC107), // Amber 500
+            specificColor(0xFFFF9800), // Orange 500
+            specificColor(0xFFFF5722), // Deep Orange 500
+            specificColor(0xFF795548), // Brown 500
+            specificColor(0xFF9E9E9E), // Grey 500
+            specificColor(0xFF607D8B)  // Blue Grey 500
         )
     }
 }

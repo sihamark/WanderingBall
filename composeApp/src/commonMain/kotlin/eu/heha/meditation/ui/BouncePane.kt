@@ -205,8 +205,8 @@ fun ColorSelection(
                     modifier = Modifier.padding(horizontal = 2.dp)
                 ) {
                     ColorBlob(
-                        color = if (selectedColor == color) MaterialTheme.colorScheme.onSurface else Color.Transparent,
-                        size = 18f
+                        color = MaterialTheme.colorScheme.onSurface,
+                        size = if (color == selectedColor) 20f else 18f
                     )
                     ColorBlob(
                         color = color.color(),
