@@ -87,8 +87,8 @@ android {
         applicationId = "eu.heha.meditation"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 2
+        versionName = "1.0.1"
     }
     packaging {
         resources {
@@ -117,7 +117,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "eu.heha.meditation"
-            packageVersion = "1.0.0"
+            packageVersion = "1.0.1"
         }
     }
 }

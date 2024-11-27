@@ -117,11 +117,11 @@ class BounceViewModel : ViewModel() {
 
     companion object {
         const val VELOCITY_MIN = 0.001f
-        const val VELOCITY_MAX = 2.0f
+        const val VELOCITY_MAX = 10.0f
         val velocityRange = VELOCITY_MIN..VELOCITY_MAX
 
         const val SIZE_MIN = 10.0f
-        const val SIZE_MAX = 100.0f
+        const val SIZE_MAX = 300.0f
         val sizeRange = SIZE_MIN..SIZE_MAX
 
         val primaryColors = listOf(
