@@ -130,12 +130,15 @@ compose.desktop {
 }
 
 tasks.register<CopyArtifacts>("buildDesktopRelease") {
-    dependsOn("createDistributable")
+    group = "release"
+    intoFolder.set("${rootDir}/releases")
+    artefactName.set("Meditation.$appVersion.app")
+    dependsOn("createReleaseDistributable")
 }
 
 abstract class CopyArtifacts @Inject constructor(
     @Inject private val files: FileSystemOperations,
-    @Inject private val layout: ProjectLayout,
+    @Inject private val layout: ProjectLayout
 ) : DefaultTask() {
 
     @get:Input
@@ -147,11 +150,11 @@ abstract class CopyArtifacts @Inject constructor(
     @TaskAction
     fun action() {
         files.copy {
-
+            from("${layout.buildDirectory.get()}/compose/binaries/main-release/app") {
+                include("*.app")
+                rename { artefactName.get() }
+            }
+            into(intoFolder.get())
         }
-    }
-
-    companion object {
-
     }
 }
