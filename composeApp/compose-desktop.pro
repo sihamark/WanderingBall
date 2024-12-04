@@ -1,0 +1,2 @@
+-keep class kotlinx.datetime.** { *; }
+-dontwarn kotlinx.datetime.**

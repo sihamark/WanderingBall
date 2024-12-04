@@ -117,10 +117,41 @@ compose.desktop {
     application {
         mainClass = "eu.heha.meditation.Meditation"
 
+        buildTypes.release.proguard {
+            configurationFiles.from(project.file("compose-desktop.pro"))
+        }
+
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "eu.heha.meditation"
             packageVersion = appVersion
         }
+    }
+}
+
+tasks.register<CopyArtifacts>("buildDesktopRelease") {
+    dependsOn("createDistributable")
+}
+
+abstract class CopyArtifacts @Inject constructor(
+    @Inject private val files: FileSystemOperations,
+    @Inject private val layout: ProjectLayout,
+) : DefaultTask() {
+
+    @get:Input
+    abstract val intoFolder: Property<String>
+
+    @get:Input
+    abstract val artefactName: Property<String>
+
+    @TaskAction
+    fun action() {
+        files.copy {
+
+        }
+    }
+
+    companion object {
+
     }
 }
