@@ -1,4 +1,4 @@
-rootProject.name = "Wandering Ball"
+rootProject.name = "WanderingBall"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
