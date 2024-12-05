@@ -1,8 +1,10 @@
+import org.gradle.kotlin.dsl.support.zipTo
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
+import org.jetbrains.kotlin.incremental.createDirectory
 
 plugins {
     alias(libs.plugins.android.application)
@@ -129,32 +131,49 @@ compose.desktop {
     }
 }
 
-tasks.register<CopyArtifacts>("buildDesktopRelease") {
+tasks.register<CopyDesktopArtifacts>("buildDesktopRelease") {
     group = "release"
-    intoFolder.set("${rootDir}/releases")
-    artefactName.set("Meditation.$appVersion.app")
+    intoFolder.set(rootDir.resolve("releases"))
+    artefactName.set("Meditation.$appVersion")
     dependsOn("createReleaseDistributable")
 }
 
-abstract class CopyArtifacts @Inject constructor(
-    @Inject private val files: FileSystemOperations,
+abstract class CopyDesktopArtifacts @Inject constructor(
     @Inject private val layout: ProjectLayout
 ) : DefaultTask() {
 
     @get:Input
-    abstract val intoFolder: Property<String>
+    abstract val intoFolder: Property<File>
 
     @get:Input
     abstract val artefactName: Property<String>
 
     @TaskAction
     fun action() {
-        files.copy {
-            from("${layout.buildDirectory.get()}/compose/binaries/main-release/app") {
-                include("*.app")
-                rename { artefactName.get() }
-            }
-            into(intoFolder.get())
+        val build = layout.buildDirectory.get().dir("compose/binaries/main-release/app")
+        intoFolder.get().createDirectory()
+        val osSlug = when (currentOS) {
+            OS.Linux -> "linux"
+            OS.Windows -> "windows"
+            OS.MacOS -> "macos"
         }
+        zipTo(intoFolder.get().resolve("${artefactName.get()}.$osSlug.zip"), build.asFile)
     }
+
+    enum class OS(val id: String) {
+        Linux("linux"),
+        Windows("windows"),
+        MacOS("macos")
+    }
+
+    private val currentOS: OS
+        get() {
+            val os = System.getProperty("os.name")
+            return when {
+                os.equals("Mac OS X", ignoreCase = true) -> OS.MacOS
+                os.startsWith("Win", ignoreCase = true) -> OS.Windows
+                os.startsWith("Linux", ignoreCase = true) -> OS.Linux
+                else -> error("Unknown OS name: $os")
+            }
+        }
 }
