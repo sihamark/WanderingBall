@@ -1,3 +1,4 @@
+
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
@@ -117,10 +118,21 @@ compose.desktop {
     application {
         mainClass = "eu.heha.meditation.Meditation"
 
+        buildTypes.release.proguard {
+            configurationFiles.from(project.file("compose-desktop.pro"))
+        }
+
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "eu.heha.meditation"
             packageVersion = appVersion
         }
     }
+}
+
+tasks.register<CopyDesktopArtifacts>("buildDesktopRelease") {
+    group = "release"
+    intoFolder.set(rootDir.resolve("releases"))
+    artefactName.set("Meditation.$appVersion")
+    dependsOn("createReleaseDistributable")
 }
