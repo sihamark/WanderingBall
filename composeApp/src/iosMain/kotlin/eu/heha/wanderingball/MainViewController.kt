@@ -1,4 +1,4 @@
-package eu.heha.meditation
+package eu.heha.wanderingball
 
 import androidx.compose.ui.window.ComposeUIViewController
 

@@ -1,8 +1,8 @@
-package eu.heha.meditation
+package eu.heha.wanderingball
 
 import androidx.compose.runtime.Composable
-import eu.heha.meditation.ui.BounceRoute
-import eu.heha.meditation.ui.MeditationTheme
+import eu.heha.wanderingball.ui.BounceRoute
+import eu.heha.wanderingball.ui.MeditationTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable

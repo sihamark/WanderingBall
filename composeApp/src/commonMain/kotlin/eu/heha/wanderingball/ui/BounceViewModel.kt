@@ -1,4 +1,4 @@
-package eu.heha.meditation.ui
+package eu.heha.wanderingball.ui
 
 import androidx.annotation.FloatRange
 import androidx.compose.material3.ColorScheme

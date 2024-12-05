@@ -1,6 +1,6 @@
-@file:JvmName("Meditation")
+@file:JvmName("WanderingBall")
 
-package eu.heha.meditation
+package eu.heha.wanderingball
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -12,7 +12,7 @@ fun main() {
     application {
         Window(
             onCloseRequest = ::exitApplication,
-            title = "Meditation"
+            title = "Wandering Ball"
         ) {
             App()
         }

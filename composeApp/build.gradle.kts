@@ -14,6 +14,8 @@ plugins {
 
 val appVersion = "1.0.1"
 val appVersionCode = 2
+val appApplicationId = "eu.heha.wanderingball"
+val appName = "Wandering Ball"
 
 kotlin {
     androidTarget {
@@ -84,11 +86,11 @@ kotlin {
 }
 
 android {
-    namespace = "eu.heha.meditation"
+    namespace = appApplicationId
     compileSdk = libs.versions.android.target.sdk.get().toInt()
 
     defaultConfig {
-        applicationId = "eu.heha.meditation"
+        applicationId = appApplicationId
         minSdk = libs.versions.android.min.sdk.get().toInt()
         targetSdk = libs.versions.android.target.sdk.get().toInt()
         versionCode = appVersionCode
@@ -116,7 +118,7 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "eu.heha.meditation.Meditation"
+        mainClass = "$appApplicationId.WanderingBall"
 
         buildTypes.release.proguard {
             configurationFiles.from(project.file("compose-desktop.pro"))
@@ -124,7 +126,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "eu.heha.meditation"
+            packageName = appApplicationId
             packageVersion = appVersion
         }
     }
@@ -133,6 +135,6 @@ compose.desktop {
 tasks.register<CopyDesktopArtifacts>("buildDesktopRelease") {
     group = "release"
     intoFolder.set(rootDir.resolve("releases"))
-    artefactName.set("Meditation.$appVersion")
+    artefactName.set("$appName.$appVersion")
     dependsOn("createReleaseDistributable")
 }

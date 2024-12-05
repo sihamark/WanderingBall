@@ -1,4 +1,4 @@
-package eu.heha.meditation.ui
+package eu.heha.wanderingball.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
@@ -50,8 +51,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import eu.heha.meditation.ui.BounceViewModel.Companion.backgroundColors
-import eu.heha.meditation.ui.BounceViewModel.Companion.primaryColors
+import eu.heha.wanderingball.ui.BounceViewModel.Companion.backgroundColors
+import eu.heha.wanderingball.ui.BounceViewModel.Companion.primaryColors
 
 @Composable
 fun BouncePane(
@@ -94,6 +95,7 @@ fun BouncePane(
         Box(
             modifier = Modifier
                 .fillMaxSize()
+                .safeContentPadding()
                 .clickable(
                     interactionSource = null,
                     indication = null,
@@ -154,7 +156,9 @@ private fun QuickSettings(
     Surface(
         shape = MaterialTheme.shapes.small,
         color = MaterialTheme.colorScheme.secondary,
-        modifier = modifier.padding(16.dp)
+        modifier = modifier
+            .safeContentPadding()
+            .padding(16.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)) {
             val icon = if (isPlaying) Icons.Filled.Pause else Icons.Filled.PlayArrow
