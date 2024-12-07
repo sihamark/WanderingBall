@@ -1,4 +1,3 @@
-
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
@@ -134,7 +133,9 @@ compose.desktop {
 
 tasks.register<CopyDesktopArtifacts>("buildDesktopRelease") {
     group = "release"
-    intoFolder.set(rootDir.resolve("releases"))
-    artefactName.set("$appName.$appVersion")
+    intoFolder = rootDir.resolve("releases")
+    version = appVersion
+    artifactName = appName
+    appPackage = appApplicationId
     dependsOn("createReleaseDistributable")
 }
