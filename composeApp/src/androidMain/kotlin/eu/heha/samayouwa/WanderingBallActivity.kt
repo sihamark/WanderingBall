@@ -1,4 +1,4 @@
-package eu.heha.wanderingball
+package eu.heha.samayouwa
 
 import android.graphics.Color
 import android.os.Bundle

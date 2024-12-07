@@ -1,6 +1,4 @@
-@file:JvmName("WanderingBall")
-
-package eu.heha.wanderingball
+package eu.heha.samayouwa
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
@@ -12,7 +10,7 @@ fun main() {
     application {
         Window(
             onCloseRequest = ::exitApplication,
-            title = "Wandering Ball"
+            title = "Samayou Wa"
         ) {
             App()
         }

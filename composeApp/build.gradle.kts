@@ -13,8 +13,8 @@ plugins {
 
 val appVersion = "1.0.1"
 val appVersionCode = 2
-val appApplicationId = "eu.heha.wanderingball"
-val appName = "Wandering Ball"
+val appApplicationId = "eu.heha.samayouwa"
+val appName = "Samayou Wa"
 
 kotlin {
     androidTarget {
@@ -117,7 +117,7 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "$appApplicationId.WanderingBall"
+        mainClass = "$appApplicationId.SamayouwaDesktopKt"
 
         buildTypes.release.proguard {
             configurationFiles.from(project.file("compose-desktop.pro"))

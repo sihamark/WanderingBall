@@ -1,4 +1,4 @@
-package eu.heha.wanderingball.ui
+package eu.heha.samayouwa.ui
 
 import androidx.annotation.FloatRange
 import androidx.compose.material3.ColorScheme

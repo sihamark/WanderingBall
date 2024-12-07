@@ -1,4 +1,4 @@
-package eu.heha.wanderingball.ui
+package eu.heha.samayouwa.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInHorizontally
@@ -51,8 +51,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import eu.heha.wanderingball.ui.BounceViewModel.Companion.backgroundColors
-import eu.heha.wanderingball.ui.BounceViewModel.Companion.primaryColors
+import eu.heha.samayouwa.ui.BounceViewModel.Companion.backgroundColors
+import eu.heha.samayouwa.ui.BounceViewModel.Companion.primaryColors
 
 @Composable
 fun BouncePane(

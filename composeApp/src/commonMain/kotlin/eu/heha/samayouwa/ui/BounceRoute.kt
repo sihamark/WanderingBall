@@ -1,4 +1,4 @@
-package eu.heha.wanderingball.ui
+package eu.heha.samayouwa.ui
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.viewmodel.compose.viewModel

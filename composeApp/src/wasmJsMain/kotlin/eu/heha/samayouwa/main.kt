@@ -1,4 +1,4 @@
-package eu.heha.wanderingball
+package eu.heha.samayouwa
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.ComposeViewport
