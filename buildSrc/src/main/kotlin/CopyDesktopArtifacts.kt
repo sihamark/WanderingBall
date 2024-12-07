@@ -60,7 +60,7 @@ abstract class CopyDesktopArtifacts @Inject constructor(
         val osSlug = currentOS.id
         zipTo(
             intoFolder.get().resolve("${artifactName.get()}.${version.get()}.$osSlug.zip"),
-            buildArtifactFolder.asFile
+            tempArtifactFolder.asFile
         )
     }
 
