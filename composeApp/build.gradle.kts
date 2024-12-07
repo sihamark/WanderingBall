@@ -131,7 +131,7 @@ compose.desktop {
                 iconFile = project.file("desktopIcons/icon_dark.svg")
             }
             macOS {
-                //iconFile = project.file("desktopIcons/icon_dark.svg")
+                iconFile = project.file("desktopIcons/icon_dark.icns")
             }
         }
     }
