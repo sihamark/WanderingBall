@@ -127,6 +127,12 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = appApplicationId
             packageVersion = appVersion
+            linux {
+                iconFile = project.file("desktopIcons/icon_dark.svg")
+            }
+            macOS {
+                //iconFile = project.file("desktopIcons/icon_dark.svg")
+            }
         }
     }
 }
