@@ -1,5 +1,6 @@
 package eu.heha.samayouwa
 
+import DataStoreSettingsDao
 import android.app.Application
 import kotlinx.io.files.Path
 
@@ -8,11 +9,13 @@ class SamayouwaApplication : Application() {
         super.onCreate()
         App.initialize(
             App.Requirements(
-                rootFolder = Path(
-                    filesDir.resolve("data")
+                settingsDaoFactory = {
+                    val path = filesDir.resolve("data")
                         .also { it.mkdirs() }
-                        .path
-                )
+                        .resolve("settings.preferences_pb")
+                        .let { Path(it.path) }
+                    DataStoreSettingsDao(path)
+                }
             )
         )
     }

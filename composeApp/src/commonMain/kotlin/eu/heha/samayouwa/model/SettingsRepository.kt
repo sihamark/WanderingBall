@@ -1,19 +1,15 @@
 package eu.heha.samayouwa.model
 
+import eu.heha.samayouwa.App
 import eu.heha.samayouwa.ui.specificColor
 import eu.heha.samayouwa.ui.themeColor
-import kotlinx.io.files.Path
 
 object SettingsRepository {
 
-    private lateinit var settingsDao: SettingsDao
+    private var settingsDao: SettingsDao? = App.settingsDaoFactory?.invoke()
 
-    fun initialize(path: Path) {
-        settingsDao = SettingsDao(path)
-    }
-
-    suspend fun loadSettings(): Settings = settingsDao.loadSettings()
-    suspend fun saveSettings(settings: Settings) = settingsDao.saveSettings(settings)
+    suspend fun loadSettings(): Settings = settingsDao?.loadSettings() ?: Settings()
+    suspend fun saveSettings(settings: Settings) = settingsDao?.saveSettings(settings)
 
     val primaryColors = listOf(
         themeColor(ColorThemeToken.primary),

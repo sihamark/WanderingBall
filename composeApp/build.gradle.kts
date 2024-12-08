@@ -37,35 +37,53 @@ kotlin {
 
     jvm("desktop")
 
-//    TODO: Uncomment this block to enable WebAssembly support, problem right now is data store,
-//     which does not support wasm, idea is to provide noop for wasm and use the current implementation for all other platforms
-//    @OptIn(ExperimentalWasmDsl::class)
-//    wasmJs {
-//        moduleName = "composeApp"
-//        browser {
-//            val rootDirPath = project.rootDir.path
-//            val projectDirPath = project.projectDir.path
-//            commonWebpackConfig {
-//                outputFileName = "composeApp.js"
-//                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
-//                    static = (static ?: mutableListOf()).apply {
-//                        // Serve sources to debug inside browser
-//                        add(rootDirPath)
-//                        add(projectDirPath)
-//                    }
-//                }
-//            }
-//        }
-//        binaries.executable()
-//    }
+    @OptIn(ExperimentalWasmDsl::class)
+    wasmJs {
+        moduleName = "composeApp"
+        browser {
+            val rootDirPath = project.rootDir.path
+            val projectDirPath = project.projectDir.path
+            commonWebpackConfig {
+                outputFileName = "composeApp.js"
+                devServer = (devServer ?: KotlinWebpackConfig.DevServer()).apply {
+                    static = (static ?: mutableListOf()).apply {
+                        // Serve sources to debug inside browser
+                        add(rootDirPath)
+                        add(projectDirPath)
+                    }
+                }
+            }
+        }
+        binaries.executable()
+    }
 
     sourceSets {
-        val desktopMain by getting
-
-        androidMain.dependencies {
-            implementation(compose.preview)
-            implementation(libs.androidx.activity.compose)
+        val notWasm = create("notWasm") {
+            kotlin.srcDir("src/notWasmMain/kotlin")
+            dependsOn(commonMain.get())
+            dependencies {
+                implementation(libs.androidx.datastore)
+                implementation(libs.androidx.datastore.preferences)
+            }
         }
+        val desktopMain by getting {
+            dependsOn(notWasm)
+            dependencies {
+                implementation(compose.desktop.currentOs)
+                implementation(libs.kotlinx.coroutines.swing)
+            }
+        }
+        androidMain  {
+            dependsOn(notWasm)
+            dependencies {
+                implementation(compose.preview)
+                implementation(libs.androidx.activity.compose)
+            }
+        }
+        iosMain {
+            dependsOn(notWasm)
+        }
+
         commonMain.dependencies {
             implementation(compose.runtime)
             implementation(compose.foundation)
@@ -78,17 +96,10 @@ kotlin {
             implementation(libs.kotlinx.datetime)
             implementation(libs.kotlinx.io)
 
-            implementation(libs.androidx.datastore)
-            implementation(libs.androidx.datastore.preferences)
-
             implementation(libs.jetbrains.lifecycle.viewmodel)
             implementation(libs.jetbrains.lifecycle.runtime.compose)
 
             implementation(libs.napier)
-        }
-        desktopMain.dependencies {
-            implementation(compose.desktop.currentOs)
-            implementation(libs.kotlinx.coroutines.swing)
         }
     }
 }
