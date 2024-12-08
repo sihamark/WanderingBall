@@ -37,6 +37,8 @@ kotlin {
 
     jvm("desktop")
 
+//    TODO: Uncomment this block to enable WebAssembly support, problem right now is data store,
+//     which does not support wasm, idea is to provide noop for wasm and use the current implementation for all other platforms
 //    @OptIn(ExperimentalWasmDsl::class)
 //    wasmJs {
 //        moduleName = "composeApp"

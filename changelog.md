@@ -9,6 +9,9 @@
 - improved animation of quick settings
 - renamed libs and plugins
 - extracted variables
+- added desktop icons
+- added persistence of settings
+- overhauled build process for desktop apps
 
 ## [1.0.0] - 2024-11-27
 
