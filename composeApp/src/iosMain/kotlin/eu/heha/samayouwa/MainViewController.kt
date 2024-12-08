@@ -1,4 +1,4 @@
-package eu.heha.meditation
+package eu.heha.samayouwa
 
 import androidx.compose.ui.window.ComposeUIViewController
 

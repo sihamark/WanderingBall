@@ -1,4 +1,3 @@
-
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
@@ -14,6 +13,8 @@ plugins {
 
 val appVersion = "1.0.1"
 val appVersionCode = 2
+val appApplicationId = "eu.heha.samayouwa"
+val appName = "Samayou Wa"
 
 kotlin {
     androidTarget {
@@ -84,11 +85,11 @@ kotlin {
 }
 
 android {
-    namespace = "eu.heha.meditation"
+    namespace = appApplicationId
     compileSdk = libs.versions.android.target.sdk.get().toInt()
 
     defaultConfig {
-        applicationId = "eu.heha.meditation"
+        applicationId = appApplicationId
         minSdk = libs.versions.android.min.sdk.get().toInt()
         targetSdk = libs.versions.android.target.sdk.get().toInt()
         versionCode = appVersionCode
@@ -116,7 +117,7 @@ dependencies {
 
 compose.desktop {
     application {
-        mainClass = "eu.heha.meditation.Meditation"
+        mainClass = "$appApplicationId.SamayouwaDesktopKt"
 
         buildTypes.release.proguard {
             configurationFiles.from(project.file("compose-desktop.pro"))
@@ -124,15 +125,30 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "eu.heha.meditation"
+            packageName = appName
             packageVersion = appVersion
+            description =
+                "Multiplatform App to watch a circle go from left to right and back again."
+            copyright = "© 2024 My Hans Markwart. All rights reserved."
+            vendor = "HeHa Foundation"
+            linux {
+                iconFile = project.file("desktopIcons/icon_dark.png")
+            }
+            macOS {
+                iconFile = project.file("desktopIcons/icon_dark.icns")
+            }
+            windows {
+                iconFile = project.file("desktopIcons/icon_dark.ico")
+            }
         }
     }
 }
 
 tasks.register<CopyDesktopArtifacts>("buildDesktopRelease") {
     group = "release"
-    intoFolder.set(rootDir.resolve("releases"))
-    artefactName.set("Meditation.$appVersion")
+    intoFolder = rootDir.resolve("releases")
+    version = appVersion
+    artifactName = appName
+    appPackage = appApplicationId
     dependsOn("createReleaseDistributable")
 }

@@ -1,14 +1,14 @@
-package eu.heha.meditation
+package eu.heha.samayouwa
 
 import androidx.compose.runtime.Composable
-import eu.heha.meditation.ui.BounceRoute
-import eu.heha.meditation.ui.MeditationTheme
+import eu.heha.samayouwa.ui.BounceRoute
+import eu.heha.samayouwa.ui.theme.AppTheme
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 @Preview
 fun App() {
-    MeditationTheme {
+    AppTheme {
         BounceRoute()
     }
 }

@@ -1,4 +1,6 @@
-rootProject.name = "Meditation"
+@file:Suppress("UnstableApiUsage")
+
+rootProject.name = "SamayouWa"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
