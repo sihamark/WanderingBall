@@ -3,12 +3,31 @@ package eu.heha.samayouwa
 import androidx.compose.runtime.Composable
 import eu.heha.samayouwa.ui.BounceRoute
 import eu.heha.samayouwa.ui.theme.AppTheme
-import org.jetbrains.compose.ui.tooling.preview.Preview
+import io.github.aakira.napier.Antilog
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
+import kotlinx.io.files.Path
 
-@Composable
-@Preview
-fun App() {
-    AppTheme {
-        BounceRoute()
+object App {
+
+    private lateinit var requirements: Requirements
+
+    val rootPath get() = requirements.rootPath
+
+    fun initialize(requirements: Requirements) {
+        Napier.base(requirements.antilog)
+        this.requirements = requirements
     }
+
+    @Composable
+    fun Content() {
+        AppTheme {
+            BounceRoute()
+        }
+    }
+
+    data class Requirements(
+        val antilog: Antilog = DebugAntilog(),
+        val rootPath: Path
+    )
 }
