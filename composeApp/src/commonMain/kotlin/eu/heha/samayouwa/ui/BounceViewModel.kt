@@ -109,6 +109,10 @@ class BounceViewModel : ViewModel() {
         setSettings { copy(backgroundColor = colorValue) }
     }
 
+    fun resetSettings() {
+        setSettings { Settings() }
+    }
+
     private fun setSettings(mutateSettings: Settings.() -> Settings) {
         state = state.copy(
             settings = state.settings.mutateSettings()

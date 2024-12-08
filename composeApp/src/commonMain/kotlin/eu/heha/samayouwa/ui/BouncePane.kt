@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
@@ -64,7 +65,8 @@ fun BouncePane(
     onChangeVelocity: (Float) -> Unit,
     onChangeSize: (Float) -> Unit,
     onChangePrimaryColor: (ColorValue) -> Unit,
-    onChangeBackgroundColor: (ColorValue) -> Unit
+    onChangeBackgroundColor: (ColorValue) -> Unit,
+    onClickReset: () -> Unit
 ) {
     val parentFocus = remember { FocusRequester() }
     Scaffold(
@@ -132,6 +134,7 @@ fun BouncePane(
             if (state.isSettingsDialogVisible) {
                 SettingsDialog(
                     onClickHideSettingsDialog = onClickHideSettingsDialog,
+                    onClickReset = onClickReset,
                     velocity = state.settings.velocity,
                     onChangeVelocity = onChangeVelocity,
                     size = state.settings.size,
@@ -176,6 +179,7 @@ private fun QuickSettings(
 @Composable
 private fun SettingsDialog(
     onClickHideSettingsDialog: () -> Unit,
+    onClickReset: () -> Unit,
     velocity: Float,
     onChangeVelocity: (Float) -> Unit,
     size: Float,
@@ -223,6 +227,10 @@ private fun SettingsDialog(
                     selectedColor = backgroundColor,
                     onClickColor = onBackgroundColorChange
                 )
+                Spacer(Modifier.height(4.dp))
+                OutlinedButton(onClick = onClickReset) {
+                    Text("Reset to Default")
+                }
             }
         }
     }
