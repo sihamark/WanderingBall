@@ -133,6 +133,9 @@ compose.desktop {
             macOS {
                 iconFile = project.file("desktopIcons/icon_dark.icns")
             }
+            windows {
+                iconFile = project.file("desktopIcons/icon_dark.ico")
+            }
         }
     }
 }

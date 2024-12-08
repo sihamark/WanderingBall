@@ -54,6 +54,19 @@ abstract class CopyDesktopArtifacts @Inject constructor(
                 "$1" + artifactName.get() + "$3"
             )
             plistFile.writeText(adjustedPlist)
+        } else if (currentOS == OS.Windows) {
+            //adjust the exe name
+            val exeFile = File(renamedAppFolder, "${appPackage.get()}.exe")
+            val adjustedExe = File(renamedAppFolder, "${artifactName.get()}.exe")
+            exeFile.renameTo(adjustedExe)
+            //adjust the ico name
+            val icoFile = File(renamedAppFolder, "${appPackage.get()}.ico")
+            val adjustedIco = File(renamedAppFolder, "${artifactName.get()}.ico")
+            icoFile.renameTo(adjustedIco)
+            //adjust the cfg name
+            val cfgFile = File(renamedAppFolder, "app/${appPackage.get()}.cfg")
+            val adjustedCfg = File(renamedAppFolder, "app/${artifactName.get()}.cfg")
+            cfgFile.renameTo(adjustedCfg)
         }
 
         intoFolder.get().mkdirs()
