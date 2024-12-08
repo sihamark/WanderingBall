@@ -1,7 +1,6 @@
 package eu.heha.samayouwa.model
 
 import androidx.annotation.FloatRange
-import androidx.compose.material3.ColorScheme
 import eu.heha.samayouwa.ui.ColorValue
 
 data class Settings(
@@ -15,8 +14,8 @@ data class Settings(
         to = SIZE_MAX.toDouble()
     )
     val size: Float = 50f,
-    val primaryColor: ColorValue = ColorValue.Theme(ColorScheme::primary),
-    val backgroundColor: ColorValue = ColorValue.Theme(ColorScheme::background)
+    val primaryColor: ColorValue = ColorValue.Theme(ColorThemeToken.primary),
+    val backgroundColor: ColorValue = ColorValue.Theme(ColorThemeToken.background)
 ) {
     companion object {
         const val VELOCITY_MIN = 0.001f

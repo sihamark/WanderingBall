@@ -11,7 +11,7 @@ object IosMain {
     fun initialize() {
         App.initialize(
             App.Requirements(
-                rootPath = Path(
+                rootFolder = Path(
                     iosDirPath("data")
                 )
             )

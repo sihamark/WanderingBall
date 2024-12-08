@@ -1,46 +1,74 @@
 package eu.heha.samayouwa.model
 
-import androidx.datastore.preferences.core.PreferenceDataStoreFactory
-import androidx.datastore.preferences.core.doublePreferencesKey
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import eu.heha.samayouwa.ui.ColorValue
-import kotlinx.coroutines.flow.first
-import okio.Path.Companion.toPath
+import eu.heha.samayouwa.ui.specificColor
+import eu.heha.samayouwa.ui.themeColor
+import kotlinx.io.files.Path
 
-class SettingsRepository(private val path: String) {
-    private val dataStore = PreferenceDataStoreFactory.createWithPath { path.toPath() }
+object SettingsRepository {
 
-    suspend fun loadSettings(): Settings {
-        val data = dataStore.data.first()
-        val velocity = data[velocityKey] ?: return Settings()
-        val size = data[sizeKey] ?: return Settings()
-        val primaryColor = data[primaryColorKey]?.decodeColorValue() ?: return Settings()
-        val backgroundColor = data[backgroundColorKey]?.decodeColorValue() ?: return Settings()
-        return Settings(velocity.toFloat(), size.toFloat(), primaryColor, backgroundColor)
+    private lateinit var settingsDao: SettingsDao
+
+    fun initialize(path: Path) {
+        settingsDao = SettingsDao(path)
     }
 
-    private fun String.decodeColorValue(): ColorValue {
-        TODO()
-    }
+    suspend fun loadSettings(): Settings = settingsDao.loadSettings()
+    suspend fun saveSettings(settings: Settings) = settingsDao.saveSettings(settings)
 
-    private fun ColorValue.encodeToString(): String {
-        TODO()
-    }
+    val primaryColors = listOf(
+        themeColor(ColorThemeToken.primary),
+        themeColor(ColorThemeToken.secondary),
+        themeColor(ColorThemeToken.tertiary),
+        specificColor(0xFF000000), // Black
+        specificColor(0xFFFFFFFF), // White
+        specificColor(0xFFF44336), // Red 500
+        specificColor(0xFFE91E63), // Pink 500
+        specificColor(0xFF9C27B0), // Purple 500
+        specificColor(0xFF673AB7), // Deep Purple 500
+        specificColor(0xFF3F51B5), // Indigo 500
+        specificColor(0xFF2196F3), // Blue 500
+        specificColor(0xFF03A9F4), // Light Blue 500
+        specificColor(0xFF00BCD4), // Cyan 500
+        specificColor(0xFF009688), // Teal 500
+        specificColor(0xFF4CAF50), // Green 500
+        specificColor(0xFF8BC34A), // Light Green 500
+        specificColor(0xFFCDDC39), // Lime 500
+        specificColor(0xFFFFEB3B), // Yellow 500
+        specificColor(0xFFFFC107), // Amber 500
+        specificColor(0xFFFF9800), // Orange 500
+        specificColor(0xFFFF5722), // Deep Orange 500
+        specificColor(0xFF795548), // Brown 500
+        specificColor(0xFF9E9E9E), // Grey 500
+        specificColor(0xFF607D8B)  // Blue Grey 500
+    )
 
-    suspend fun saveSettings(settings: Settings) {
-        dataStore.edit { preferences ->
-            preferences[velocityKey] = settings.velocity.toDouble()
-            preferences[sizeKey] = settings.size.toDouble()
-            preferences[primaryColorKey] = settings.primaryColor.toString()
-            preferences[backgroundColorKey] = settings.backgroundColor.toString()
-        }
-    }
-
-    companion object {
-        private val velocityKey = doublePreferencesKey("velocity")
-        private val sizeKey = doublePreferencesKey("size")
-        private val primaryColorKey = stringPreferencesKey("primaryColor")
-        private val backgroundColorKey = stringPreferencesKey("backgroundColor")
-    }
+    val backgroundColors = listOf(
+        themeColor(ColorThemeToken.background),
+        specificColor(0xFF000000), // Black
+        specificColor(0xFFFFFFFF), // White
+        specificColor(0xFFBDBDBD), // Grey 400
+        specificColor(0xFF757575), // Grey 600
+        specificColor(0xFF616161), // Grey 700
+        specificColor(0xFF424242), // Grey 800
+        specificColor(0xFF212121), // Grey 900
+        specificColor(0xFFF44336), // Red 500
+        specificColor(0xFFE91E63), // Pink 500
+        specificColor(0xFF9C27B0), // Purple 500
+        specificColor(0xFF673AB7), // Deep Purple 500
+        specificColor(0xFF3F51B5), // Indigo 500
+        specificColor(0xFF2196F3), // Blue 500
+        specificColor(0xFF03A9F4), // Light Blue 500
+        specificColor(0xFF00BCD4), // Cyan 500
+        specificColor(0xFF009688), // Teal 500
+        specificColor(0xFF4CAF50), // Green 500
+        specificColor(0xFF8BC34A), // Light Green 500
+        specificColor(0xFFCDDC39), // Lime 500
+        specificColor(0xFFFFEB3B), // Yellow 500
+        specificColor(0xFFFFC107), // Amber 500
+        specificColor(0xFFFF9800), // Orange 500
+        specificColor(0xFFFF5722), // Deep Orange 500
+        specificColor(0xFF795548), // Brown 500
+        specificColor(0xFF9E9E9E), // Grey 500
+        specificColor(0xFF607D8B)  // Blue Grey 500
+    )
 }

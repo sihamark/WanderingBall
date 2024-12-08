@@ -52,8 +52,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import eu.heha.samayouwa.model.Settings
-import eu.heha.samayouwa.ui.BounceViewModel.Companion.backgroundColors
-import eu.heha.samayouwa.ui.BounceViewModel.Companion.primaryColors
+import eu.heha.samayouwa.model.SettingsRepository
 
 @Composable
 fun BouncePane(
@@ -212,7 +211,7 @@ private fun SettingsDialog(
                 Text("Circle Color")
                 Spacer(Modifier.height(4.dp))
                 ColorSelection(
-                    colors = primaryColors,
+                    colors = SettingsRepository.primaryColors,
                     selectedColor = primaryColor,
                     onClickColor = onPrimaryColorChange
                 )
@@ -220,7 +219,7 @@ private fun SettingsDialog(
                 Text("Background Color")
                 Spacer(Modifier.height(4.dp))
                 ColorSelection(
-                    colors = backgroundColors,
+                    colors = SettingsRepository.backgroundColors,
                     selectedColor = backgroundColor,
                     onClickColor = onBackgroundColorChange
                 )

@@ -11,7 +11,7 @@ import java.io.File
 fun main() {
     App.initialize(
         App.Requirements(
-            rootPath = Path(
+            rootFolder = Path(
                 File("data")
                     .also { it.mkdirs() }
                     .path

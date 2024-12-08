@@ -8,7 +8,7 @@ class SamayouwaApplication : Application() {
         super.onCreate()
         App.initialize(
             App.Requirements(
-                rootPath = Path(
+                rootFolder = Path(
                     filesDir.resolve("data")
                         .also { it.mkdirs() }
                         .path

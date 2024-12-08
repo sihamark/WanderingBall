@@ -1,6 +1,7 @@
 package eu.heha.samayouwa
 
 import androidx.compose.runtime.Composable
+import eu.heha.samayouwa.model.SettingsRepository
 import eu.heha.samayouwa.ui.BounceRoute
 import eu.heha.samayouwa.ui.theme.AppTheme
 import io.github.aakira.napier.Antilog
@@ -12,11 +13,10 @@ object App {
 
     private lateinit var requirements: Requirements
 
-    val rootPath get() = requirements.rootPath
-
     fun initialize(requirements: Requirements) {
         Napier.base(requirements.antilog)
         this.requirements = requirements
+        SettingsRepository.initialize(Path(requirements.rootFolder, "settings.preferences_pb"))
     }
 
     @Composable
@@ -28,6 +28,6 @@ object App {
 
     data class Requirements(
         val antilog: Antilog = DebugAntilog(),
-        val rootPath: Path
+        val rootFolder: Path
     )
 }
