@@ -11,9 +11,19 @@ import io.github.aakira.napier.Napier
 import kotlinx.coroutines.flow.first
 import kotlinx.io.files.Path
 import okio.Path.Companion.toPath
+import sun.misc.Unsafe
 
-class DataStoreSettingsDao(private val path: Path): SettingsDao {
+class DataStoreSettingsDao(private val path: Path) : SettingsDao {
     private val dataStore = PreferenceDataStoreFactory.createWithPath { path.toString().toPath() }
+
+    init {
+        try {
+            val unsafe = Unsafe.getUnsafe()
+            Napier.e { "unsafe: $unsafe" }
+        } catch (e: Throwable) {
+            Napier.e(e) { "failed to create data store" }
+        }
+    }
 
     override suspend fun loadSettings(): Settings {
         val data = dataStore.data.first()
