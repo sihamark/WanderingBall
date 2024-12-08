@@ -51,6 +51,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import eu.heha.samayouwa.model.Settings
 import eu.heha.samayouwa.ui.BounceViewModel.Companion.backgroundColors
 import eu.heha.samayouwa.ui.BounceViewModel.Companion.primaryColors
 
@@ -68,7 +69,7 @@ fun BouncePane(
 ) {
     val parentFocus = remember { FocusRequester() }
     Scaffold(
-        containerColor = state.backgroundColor.color(),
+        containerColor = state.settings.backgroundColor.color(),
         modifier = Modifier
             .focusRequester(parentFocus)
             .onKeyEvent {
@@ -106,10 +107,10 @@ fun BouncePane(
                 }
         ) {
             ColorBlob(
-                color = state.primaryColor.color(),
-                size = state.size,
+                color = state.settings.primaryColor.color(),
+                size = state.settings.size,
                 modifier = Modifier
-                    .offset(x = ((parentWidth - state.size) * state.position).dp)
+                    .offset(x = ((parentWidth - state.settings.size) * state.position).dp)
                     .align(Alignment.CenterStart)
             )
 
@@ -132,13 +133,13 @@ fun BouncePane(
             if (state.isSettingsDialogVisible) {
                 SettingsDialog(
                     onClickHideSettingsDialog = onClickHideSettingsDialog,
-                    velocity = state.velocity,
+                    velocity = state.settings.velocity,
                     onChangeVelocity = onChangeVelocity,
-                    size = state.size,
+                    size = state.settings.size,
                     onChangeSize = onChangeSize,
-                    primaryColor = state.primaryColor,
+                    primaryColor = state.settings.primaryColor,
                     onPrimaryColorChange = onChangePrimaryColor,
-                    backgroundColor = state.backgroundColor,
+                    backgroundColor = state.settings.backgroundColor,
                     onBackgroundColorChange = onChangeBackgroundColor
                 )
             }
@@ -198,14 +199,14 @@ private fun SettingsDialog(
                 Slider(
                     value = velocity,
                     onValueChange = onChangeVelocity,
-                    valueRange = BounceViewModel.velocityRange
+                    valueRange = Settings.velocityRange
                 )
                 Spacer(Modifier.height(8.dp))
                 Text("Size: $size")
                 Slider(
                     value = size,
                     onValueChange = onChangeSize,
-                    valueRange = BounceViewModel.sizeRange
+                    valueRange = Settings.sizeRange
                 )
                 Spacer(Modifier.height(8.dp))
                 Text("Circle Color")

@@ -7,6 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import eu.heha.samayouwa.model.Settings
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -23,7 +24,7 @@ class BounceViewModel : ViewModel() {
     private var playJob: Job? = null
     private var isDecreasing = false
 
-    fun play() {
+    private fun play() {
         state = state.copy(isPlaying = true)
         playJob?.cancel()
         playJob = viewModelScope.launch(Dispatchers.Default) {
@@ -39,7 +40,7 @@ class BounceViewModel : ViewModel() {
                 val delta = newTimeStamp.toEpochMilliseconds() -
                         latestTimestamp.toEpochMilliseconds()
                 latestTimestamp = newTimeStamp
-                val deltaPosition = state.velocity * (delta / 1000f)
+                val deltaPosition = state.settings.velocity * (delta / 1000f)
                 val newPosition = state.position.adjust(deltaPosition)
                 val adjustedPosition = if (newPosition > 1) {
                     isDecreasing = true
@@ -78,11 +79,19 @@ class BounceViewModel : ViewModel() {
     }
 
     fun setVelocity(velocity: Float) {
-        state = state.copy(velocity = velocity.coerceIn(velocityRange))
+        state = state.copy(
+            settings = state.settings.copy(
+                velocity = velocity.coerceIn(Settings.velocityRange)
+            )
+        )
     }
 
     fun setSize(size: Float) {
-        state = state.copy(size = size.coerceIn(sizeRange))
+        state = state.copy(
+            settings = state.settings.copy(
+                size = size.coerceIn(Settings.sizeRange)
+            )
+        )
     }
 
     fun togglePlay() {
@@ -94,36 +103,31 @@ class BounceViewModel : ViewModel() {
     }
 
     fun setPrimaryColor(colorValue: ColorValue) {
-        state = state.copy(primaryColor = colorValue)
+        state = state.copy(
+            settings = state.settings.copy(
+                primaryColor = colorValue
+            )
+        )
     }
 
     fun setBackgroundColor(colorValue: ColorValue) {
-        state = state.copy(backgroundColor = colorValue)
+        state = state.copy(
+            settings = state.settings.copy(
+                backgroundColor = colorValue
+            )
+        )
     }
 
     data class State(
-        @FloatRange(from = VELOCITY_MIN.toDouble(), to = VELOCITY_MAX.toDouble())
-        val velocity: Float = .5f,
         @FloatRange(from = 0.0, to = 1.0)
         val position: Float = 0f,
-        @FloatRange(from = SIZE_MIN.toDouble(), to = SIZE_MAX.toDouble())
-        val size: Float = 50f,
-        val primaryColor: ColorValue = themeColor(ColorScheme::primary),
-        val backgroundColor: ColorValue = themeColor(ColorScheme::background),
         val isPlaying: Boolean = false,
         val isQuickSettingsVisible: Boolean = false,
-        val isSettingsDialogVisible: Boolean = false
+        val isSettingsDialogVisible: Boolean = false,
+        val settings: Settings = Settings(),
     )
 
     companion object {
-        const val VELOCITY_MIN = 0.001f
-        const val VELOCITY_MAX = 10.0f
-        val velocityRange = VELOCITY_MIN..VELOCITY_MAX
-
-        const val SIZE_MIN = 10.0f
-        const val SIZE_MAX = 300.0f
-        val sizeRange = SIZE_MIN..SIZE_MAX
-
         val primaryColors = listOf(
             themeColor(ColorScheme::primary),
             themeColor(ColorScheme::secondary),
