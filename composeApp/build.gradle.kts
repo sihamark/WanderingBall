@@ -125,10 +125,14 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = appApplicationId
+            packageName = appName
             packageVersion = appVersion
+            description =
+                "Multiplatform App to watch a circle go from left to right and back again."
+            copyright = "© 2024 My Hans Markwart. All rights reserved."
+            vendor = "HeHa Foundation"
             linux {
-                iconFile = project.file("desktopIcons/icon_dark.svg")
+                iconFile = project.file("desktopIcons/icon_dark.png")
             }
             macOS {
                 iconFile = project.file("desktopIcons/icon_dark.icns")
