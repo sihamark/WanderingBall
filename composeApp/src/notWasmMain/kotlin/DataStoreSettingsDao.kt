@@ -18,6 +18,7 @@ class DataStoreSettingsDao(private val path: Path) : SettingsDao {
 
     init {
         try {
+            //TODO: remove this once release build works
             val unsafe = Unsafe.getUnsafe()
             Napier.e { "unsafe: $unsafe" }
         } catch (e: Throwable) {
