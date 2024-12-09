@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.1] - 2021-12-XX
+
+- fixed settings not being saved on macos
+
 ## [1.1.0] - 2021-12-09
 
 - pressing space now toggles play/pause

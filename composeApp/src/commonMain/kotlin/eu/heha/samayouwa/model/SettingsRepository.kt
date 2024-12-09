@@ -3,13 +3,24 @@ package eu.heha.samayouwa.model
 import eu.heha.samayouwa.App
 import eu.heha.samayouwa.ui.specificColor
 import eu.heha.samayouwa.ui.themeColor
+import io.github.aakira.napier.Napier
 
 object SettingsRepository {
 
     private var settingsDao: SettingsDao? = App.settingsDaoFactory?.invoke()
 
-    suspend fun loadSettings(): Settings = settingsDao?.loadSettings() ?: Settings()
-    suspend fun saveSettings(settings: Settings) = settingsDao?.saveSettings(settings)
+    suspend fun loadSettings(): Settings = try {
+        settingsDao?.loadSettings() ?: Settings()
+    } catch (e: Exception) {
+        Napier.e { "Failed to load settings" }
+        Settings()
+    }
+
+    suspend fun saveSettings(settings: Settings) = try {
+        settingsDao?.saveSettings(settings)
+    } catch (e: Exception) {
+        Napier.e(e) { "Failed to save settings" }
+    }
 
     val primaryColors = listOf(
         themeColor(ColorThemeToken.primary),
