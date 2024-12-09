@@ -16,6 +16,7 @@ fun BounceRoute() {
         onChangeVelocity = viewModel::setVelocity,
         onChangeSize = viewModel::setSize,
         onChangePrimaryColor = viewModel::setPrimaryColor,
-        onChangeBackgroundColor = viewModel::setBackgroundColor
+        onChangeBackgroundColor = viewModel::setBackgroundColor,
+        onClickReset = viewModel::resetSettings,
     )
 }

@@ -1,12 +1,13 @@
 package eu.heha.samayouwa.ui
 
 import androidx.annotation.FloatRange
-import androidx.compose.material3.ColorScheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import eu.heha.samayouwa.model.Settings
+import eu.heha.samayouwa.model.SettingsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -23,7 +24,14 @@ class BounceViewModel : ViewModel() {
     private var playJob: Job? = null
     private var isDecreasing = false
 
-    fun play() {
+    init {
+        viewModelScope.launch {
+            val settings = SettingsRepository.loadSettings()
+            state = state.copy(settings = settings)
+        }
+    }
+
+    private fun play() {
         state = state.copy(isPlaying = true)
         playJob?.cancel()
         playJob = viewModelScope.launch(Dispatchers.Default) {
@@ -39,7 +47,7 @@ class BounceViewModel : ViewModel() {
                 val delta = newTimeStamp.toEpochMilliseconds() -
                         latestTimestamp.toEpochMilliseconds()
                 latestTimestamp = newTimeStamp
-                val deltaPosition = state.velocity * (delta / 1000f)
+                val deltaPosition = state.settings.velocity * (delta / 1000f)
                 val newPosition = state.position.adjust(deltaPosition)
                 val adjustedPosition = if (newPosition > 1) {
                     isDecreasing = true
@@ -77,14 +85,6 @@ class BounceViewModel : ViewModel() {
         state = state.copy(isSettingsDialogVisible = false)
     }
 
-    fun setVelocity(velocity: Float) {
-        state = state.copy(velocity = velocity.coerceIn(velocityRange))
-    }
-
-    fun setSize(size: Float) {
-        state = state.copy(size = size.coerceIn(sizeRange))
-    }
-
     fun togglePlay() {
         if (state.isPlaying) {
             pause()
@@ -93,92 +93,41 @@ class BounceViewModel : ViewModel() {
         }
     }
 
+    fun setVelocity(velocity: Float) {
+        setSettings { copy(velocity = velocity.coerceIn(Settings.velocityRange)) }
+    }
+
+    fun setSize(size: Float) {
+        setSettings { copy(size = size.coerceIn(Settings.sizeRange)) }
+    }
+
     fun setPrimaryColor(colorValue: ColorValue) {
-        state = state.copy(primaryColor = colorValue)
+        setSettings { copy(primaryColor = colorValue) }
     }
 
     fun setBackgroundColor(colorValue: ColorValue) {
-        state = state.copy(backgroundColor = colorValue)
+        setSettings { copy(backgroundColor = colorValue) }
+    }
+
+    fun resetSettings() {
+        setSettings { Settings() }
+    }
+
+    private fun setSettings(mutateSettings: Settings.() -> Settings) {
+        state = state.copy(
+            settings = state.settings.mutateSettings()
+        )
+        viewModelScope.launch(Dispatchers.Default) {
+            SettingsRepository.saveSettings(state.settings)
+        }
     }
 
     data class State(
-        @FloatRange(from = VELOCITY_MIN.toDouble(), to = VELOCITY_MAX.toDouble())
-        val velocity: Float = .5f,
         @FloatRange(from = 0.0, to = 1.0)
         val position: Float = 0f,
-        @FloatRange(from = SIZE_MIN.toDouble(), to = SIZE_MAX.toDouble())
-        val size: Float = 50f,
-        val primaryColor: ColorValue = themeColor(ColorScheme::primary),
-        val backgroundColor: ColorValue = themeColor(ColorScheme::background),
         val isPlaying: Boolean = false,
         val isQuickSettingsVisible: Boolean = false,
-        val isSettingsDialogVisible: Boolean = false
+        val isSettingsDialogVisible: Boolean = false,
+        val settings: Settings = Settings(),
     )
-
-    companion object {
-        const val VELOCITY_MIN = 0.001f
-        const val VELOCITY_MAX = 10.0f
-        val velocityRange = VELOCITY_MIN..VELOCITY_MAX
-
-        const val SIZE_MIN = 10.0f
-        const val SIZE_MAX = 300.0f
-        val sizeRange = SIZE_MIN..SIZE_MAX
-
-        val primaryColors = listOf(
-            themeColor(ColorScheme::primary),
-            themeColor(ColorScheme::secondary),
-            themeColor(ColorScheme::tertiary),
-            specificColor(0xFF000000), // Black
-            specificColor(0xFFFFFFFF), // White
-            specificColor(0xFFF44336), // Red 500
-            specificColor(0xFFE91E63), // Pink 500
-            specificColor(0xFF9C27B0), // Purple 500
-            specificColor(0xFF673AB7), // Deep Purple 500
-            specificColor(0xFF3F51B5), // Indigo 500
-            specificColor(0xFF2196F3), // Blue 500
-            specificColor(0xFF03A9F4), // Light Blue 500
-            specificColor(0xFF00BCD4), // Cyan 500
-            specificColor(0xFF009688), // Teal 500
-            specificColor(0xFF4CAF50), // Green 500
-            specificColor(0xFF8BC34A), // Light Green 500
-            specificColor(0xFFCDDC39), // Lime 500
-            specificColor(0xFFFFEB3B), // Yellow 500
-            specificColor(0xFFFFC107), // Amber 500
-            specificColor(0xFFFF9800), // Orange 500
-            specificColor(0xFFFF5722), // Deep Orange 500
-            specificColor(0xFF795548), // Brown 500
-            specificColor(0xFF9E9E9E), // Grey 500
-            specificColor(0xFF607D8B)  // Blue Grey 500
-        )
-
-        val backgroundColors = listOf(
-            themeColor(ColorScheme::background),
-            specificColor(0xFF000000), // Black
-            specificColor(0xFFFFFFFF), // White
-            specificColor(0xFFBDBDBD), // Grey 400
-            specificColor(0xFF757575), // Grey 600
-            specificColor(0xFF616161), // Grey 700
-            specificColor(0xFF424242), // Grey 800
-            specificColor(0xFF212121), // Grey 900
-            specificColor(0xFFF44336), // Red 500
-            specificColor(0xFFE91E63), // Pink 500
-            specificColor(0xFF9C27B0), // Purple 500
-            specificColor(0xFF673AB7), // Deep Purple 500
-            specificColor(0xFF3F51B5), // Indigo 500
-            specificColor(0xFF2196F3), // Blue 500
-            specificColor(0xFF03A9F4), // Light Blue 500
-            specificColor(0xFF00BCD4), // Cyan 500
-            specificColor(0xFF009688), // Teal 500
-            specificColor(0xFF4CAF50), // Green 500
-            specificColor(0xFF8BC34A), // Light Green 500
-            specificColor(0xFFCDDC39), // Lime 500
-            specificColor(0xFFFFEB3B), // Yellow 500
-            specificColor(0xFFFFC107), // Amber 500
-            specificColor(0xFFFF9800), // Orange 500
-            specificColor(0xFFFF5722), // Deep Orange 500
-            specificColor(0xFF795548), // Brown 500
-            specificColor(0xFF9E9E9E), // Grey 500
-            specificColor(0xFF607D8B)  // Blue Grey 500
-        )
-    }
 }

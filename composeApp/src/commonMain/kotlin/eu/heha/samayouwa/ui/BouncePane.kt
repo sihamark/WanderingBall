@@ -27,6 +27,7 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Slider
 import androidx.compose.material3.Surface
@@ -51,8 +52,8 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import eu.heha.samayouwa.ui.BounceViewModel.Companion.backgroundColors
-import eu.heha.samayouwa.ui.BounceViewModel.Companion.primaryColors
+import eu.heha.samayouwa.model.Settings
+import eu.heha.samayouwa.model.SettingsRepository
 
 @Composable
 fun BouncePane(
@@ -64,11 +65,12 @@ fun BouncePane(
     onChangeVelocity: (Float) -> Unit,
     onChangeSize: (Float) -> Unit,
     onChangePrimaryColor: (ColorValue) -> Unit,
-    onChangeBackgroundColor: (ColorValue) -> Unit
+    onChangeBackgroundColor: (ColorValue) -> Unit,
+    onClickReset: () -> Unit
 ) {
     val parentFocus = remember { FocusRequester() }
     Scaffold(
-        containerColor = state.backgroundColor.color(),
+        containerColor = state.settings.backgroundColor.color(),
         modifier = Modifier
             .focusRequester(parentFocus)
             .onKeyEvent {
@@ -106,10 +108,10 @@ fun BouncePane(
                 }
         ) {
             ColorBlob(
-                color = state.primaryColor.color(),
-                size = state.size,
+                color = state.settings.primaryColor.color(),
+                size = state.settings.size,
                 modifier = Modifier
-                    .offset(x = ((parentWidth - state.size) * state.position).dp)
+                    .offset(x = ((parentWidth - state.settings.size) * state.position).dp)
                     .align(Alignment.CenterStart)
             )
 
@@ -132,13 +134,14 @@ fun BouncePane(
             if (state.isSettingsDialogVisible) {
                 SettingsDialog(
                     onClickHideSettingsDialog = onClickHideSettingsDialog,
-                    velocity = state.velocity,
+                    onClickReset = onClickReset,
+                    velocity = state.settings.velocity,
                     onChangeVelocity = onChangeVelocity,
-                    size = state.size,
+                    size = state.settings.size,
                     onChangeSize = onChangeSize,
-                    primaryColor = state.primaryColor,
+                    primaryColor = state.settings.primaryColor,
                     onPrimaryColorChange = onChangePrimaryColor,
-                    backgroundColor = state.backgroundColor,
+                    backgroundColor = state.settings.backgroundColor,
                     onBackgroundColorChange = onChangeBackgroundColor
                 )
             }
@@ -176,6 +179,7 @@ private fun QuickSettings(
 @Composable
 private fun SettingsDialog(
     onClickHideSettingsDialog: () -> Unit,
+    onClickReset: () -> Unit,
     velocity: Float,
     onChangeVelocity: (Float) -> Unit,
     size: Float,
@@ -198,20 +202,20 @@ private fun SettingsDialog(
                 Slider(
                     value = velocity,
                     onValueChange = onChangeVelocity,
-                    valueRange = BounceViewModel.velocityRange
+                    valueRange = Settings.velocityRange
                 )
                 Spacer(Modifier.height(8.dp))
                 Text("Size: $size")
                 Slider(
                     value = size,
                     onValueChange = onChangeSize,
-                    valueRange = BounceViewModel.sizeRange
+                    valueRange = Settings.sizeRange
                 )
                 Spacer(Modifier.height(8.dp))
                 Text("Circle Color")
                 Spacer(Modifier.height(4.dp))
                 ColorSelection(
-                    colors = primaryColors,
+                    colors = SettingsRepository.primaryColors,
                     selectedColor = primaryColor,
                     onClickColor = onPrimaryColorChange
                 )
@@ -219,10 +223,14 @@ private fun SettingsDialog(
                 Text("Background Color")
                 Spacer(Modifier.height(4.dp))
                 ColorSelection(
-                    colors = backgroundColors,
+                    colors = SettingsRepository.backgroundColors,
                     selectedColor = backgroundColor,
                     onClickColor = onBackgroundColorChange
                 )
+                Spacer(Modifier.height(4.dp))
+                OutlinedButton(onClick = onClickReset) {
+                    Text("Reset to Default")
+                }
             }
         }
     }
