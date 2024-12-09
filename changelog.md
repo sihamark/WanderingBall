@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.1] - 2021-XX-XX
+## [1.1.0] - 2021-12-09
 
 - pressing space now toggles play/pause
 - pressing keys now triggers the quick settings
