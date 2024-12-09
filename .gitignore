@@ -11,7 +11,7 @@ captures
 .externalNativeBuild
 releases
 .cxx
-*.preferences_pb
+composeApp/data
 *.xcodeproj/*
 !*.xcodeproj/project.pbxproj
 !*.xcodeproj/xcshareddata/

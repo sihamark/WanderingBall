@@ -1,6 +1,6 @@
 package eu.heha.samayouwa
 
-import DataStoreSettingsDao
+import eu.heha.samayouwa.model.DataStoreSettingsDao
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import kotlinx.io.files.Path
@@ -15,7 +15,6 @@ fun main() {
             settingsDaoFactory = {
                 val path = File("data")
                     .also { it.mkdirs() }
-                    .resolve("settings.preferences_pb")
                     .let { Path(it.path) }
                 DataStoreSettingsDao(path)
             }

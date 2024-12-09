@@ -58,30 +58,17 @@ kotlin {
     }
 
     sourceSets {
-        val notWasm = create("notWasm") {
-            kotlin.srcDir("src/notWasmMain/kotlin")
-            dependsOn(commonMain.get())
-            dependencies {
-                implementation(libs.androidx.datastore)
-                implementation(libs.androidx.datastore.preferences)
-            }
-        }
         val desktopMain by getting {
-            dependsOn(notWasm)
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation(libs.kotlinx.coroutines.swing)
             }
         }
-        androidMain  {
-            dependsOn(notWasm)
+        androidMain {
             dependencies {
                 implementation(compose.preview)
                 implementation(libs.androidx.activity.compose)
             }
-        }
-        iosMain {
-            dependsOn(notWasm)
         }
 
         commonMain.dependencies {
