@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.1.1] - 2021-12-XX
+## [1.1.1] - 2021-12-10
 
 - fixed settings not being saved on macos
 
@@ -16,6 +16,7 @@
 - added desktop icons
 - added persistence of settings
 - overhauled build process for desktop apps
+- tested for windows and macos
 
 ## [1.0.0] - 2024-11-27
 
