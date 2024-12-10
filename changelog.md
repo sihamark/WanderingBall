@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.1.2] - 2021-XX-XX
+
+- updated dependencies
+
 ## [1.1.1] - 2021-12-10
 
 - fixed settings not being saved on macos
