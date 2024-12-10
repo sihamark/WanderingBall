@@ -12,7 +12,7 @@ object SettingsRepository {
     suspend fun loadSettings(): Settings = try {
         settingsDao?.loadSettings() ?: Settings()
     } catch (e: Exception) {
-        Napier.e { "Failed to load settings" }
+        Napier.e(e) { "Failed to load settings" }
         Settings()
     }
 
