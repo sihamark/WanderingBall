@@ -1,6 +1,6 @@
 # Samayou Wa
 
-![Icon](composeApp/desktopIcons/icon_dark.svg) [Latest Release](https://github.com/sihamark/WanderingBall/releases/latest)
+![Icon](composeApp/desktopIcons/icon_dark.svg) [Latest Release](https://github.com/sihamark/WanderingBall/releases/latest) ![Icon](composeApp/desktopIcons/icon_dark.svg)
 
 Samayou Wa (jap. for wandering circle) is a kotlin multiplatform app that simulates a circle going from
 one edge of the screen to the other. 
