@@ -1,3 +1,21 @@
+# Samayou Wa
+
+![Icon](composeApp/desktopIcons/icon_dark.svg) [Latest Release](https://github.com/sihamark/WanderingBall/releases/latest)
+
+Samayou Wa (jap. for wandering circle) is a kotlin multiplatform app that simulates a circle going from
+one edge of the screen to the other. 
+
+The user can adjust different settings:
+- size and velocity of the circle
+- the color of the background and the circle
+
+## Current Status
+
+Currently the app is tested for desktop on windows and macos. 
+Wasm and android is sporadically tested while iosApp is prepared but not tested at all.
+
+## General Project Layout
+
 This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop.
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
@@ -9,7 +27,6 @@ This is a Kotlin Multiplatform project targeting Android, iOS, Web, Desktop.
 
 * `/iosApp` contains iOS applications. Even if you’re sharing your UI with Compose Multiplatform, 
   you need this entry point for your iOS app. This is also where you should add SwiftUI code for your project.
-
 
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html),
 [Compose Multiplatform](https://github.com/JetBrains/compose-multiplatform/#compose-multiplatform),

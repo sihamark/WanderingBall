@@ -11,14 +11,13 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
 }
 
-val appVersion = "1.1.1"
-val appVersionCode = 3
+val appVersion = "1.1.2"
+val appVersionCode = 4
 val appApplicationId = "eu.heha.samayouwa"
 val appName = "Samayou Wa"
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }
