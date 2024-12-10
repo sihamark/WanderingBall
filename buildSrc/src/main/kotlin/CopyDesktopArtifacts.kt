@@ -37,38 +37,6 @@ abstract class CopyDesktopArtifacts @Inject constructor(
             into(tempArtifactFolder)
         }
 
-        //rename the app folder inside the release folder
-        val appFolder = tempArtifactFolder.asFile.listFiles()?.first()
-            ?: error("No files in $tempArtifactFolder")
-        //this is relevant for macos, where the folder is appended with .app
-        val ending = appFolder.name.substringAfterLast(appPackage.get(), "")
-        val renamedAppFolder = File(appFolder.parentFile, artifactName.get() + ending)
-        appFolder.renameTo(renamedAppFolder)
-
-        if (currentOS == OS.MacOS) {
-            //adjust plist so the correct name is displayed
-            val plistFile = File(renamedAppFolder, "Contents/Info.plist")
-            val plist = plistFile.readText()
-            val adjustedPlist = plist.replace(
-                Regex("(<key>CFBundleName</key>\\s*<string>)(.*?)(</string>)"),
-                "$1" + artifactName.get() + "$3"
-            )
-            plistFile.writeText(adjustedPlist)
-        } else if (currentOS == OS.Windows) {
-            //adjust the exe name
-            val exeFile = File(renamedAppFolder, "${appPackage.get()}.exe")
-            val adjustedExe = File(renamedAppFolder, "${artifactName.get()}.exe")
-            exeFile.renameTo(adjustedExe)
-            //adjust the ico name
-            val icoFile = File(renamedAppFolder, "${appPackage.get()}.ico")
-            val adjustedIco = File(renamedAppFolder, "${artifactName.get()}.ico")
-            icoFile.renameTo(adjustedIco)
-            //adjust the cfg name
-            val cfgFile = File(renamedAppFolder, "app/${appPackage.get()}.cfg")
-            val adjustedCfg = File(renamedAppFolder, "app/${artifactName.get()}.cfg")
-            cfgFile.renameTo(adjustedCfg)
-        }
-
         intoFolder.get().mkdirs()
         val osSlug = currentOS.id
         zipTo(

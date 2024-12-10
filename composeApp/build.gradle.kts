@@ -11,8 +11,8 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
 }
 
-val appVersion = "1.1.0"
-val appVersionCode = 2
+val appVersion = "1.1.1"
+val appVersionCode = 3
 val appApplicationId = "eu.heha.samayouwa"
 val appName = "Samayou Wa"
 

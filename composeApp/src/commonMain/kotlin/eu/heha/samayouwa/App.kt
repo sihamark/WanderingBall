@@ -10,6 +10,8 @@ import io.github.aakira.napier.Napier
 
 object App {
 
+    var debugString = ""
+
     private lateinit var requirements: Requirements
 
     val settingsDaoFactory get() = requirements.settingsDaoFactory

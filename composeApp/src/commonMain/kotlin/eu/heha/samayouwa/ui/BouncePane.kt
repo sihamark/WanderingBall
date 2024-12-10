@@ -52,6 +52,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
+import eu.heha.samayouwa.App
 import eu.heha.samayouwa.model.Settings
 import eu.heha.samayouwa.model.SettingsRepository
 
@@ -144,6 +145,12 @@ fun BouncePane(
                     backgroundColor = state.settings.backgroundColor,
                     onBackgroundColorChange = onChangeBackgroundColor
                 )
+            }
+
+            if (App.debugString.isNotBlank()) {
+                Surface(Modifier.align(Alignment.BottomStart)) {
+                    Text(App.debugString, modifier = Modifier.padding(8.dp))
+                }
             }
         }
     }
