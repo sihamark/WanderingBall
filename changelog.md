@@ -1,5 +1,10 @@
 # Changelog
 
+## [1.1.x] - xxxx-xx-xx
+
+- updated dependencies to latest versions
+- renamed some classes to avoid confusion
+
 ## [1.1.1] - 2021-12-10
 
 - fixed settings not being saved on macos

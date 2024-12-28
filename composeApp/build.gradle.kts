@@ -1,5 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
@@ -11,14 +10,13 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
 }
 
-val appVersion = "1.1.1"
-val appVersionCode = 3
+val appVersion = "1.1.2"
+val appVersionCode = 4
 val appApplicationId = "eu.heha.samayouwa"
 val appName = "Samayou Wa"
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
         }

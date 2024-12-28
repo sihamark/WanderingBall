@@ -7,7 +7,7 @@ import io.github.aakira.napier.Napier
 
 object SettingsRepository {
 
-    private var settingsDao: SettingsDao? = App.settingsDaoFactory?.invoke()
+    private var settingsDao = App.settingsDaoFactory?.invoke()
 
     suspend fun loadSettings(): Settings = try {
         settingsDao?.loadSettings() ?: Settings()

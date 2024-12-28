@@ -1,7 +1,7 @@
 package eu.heha.samayouwa
 
 import androidx.compose.runtime.Composable
-import eu.heha.samayouwa.model.SettingsDao
+import eu.heha.samayouwa.model.PropertiesSettingsDao
 import eu.heha.samayouwa.ui.BounceRoute
 import eu.heha.samayouwa.ui.theme.AppTheme
 import io.github.aakira.napier.Antilog
@@ -30,6 +30,6 @@ object App {
 
     data class Requirements(
         val antilog: Antilog = DebugAntilog(),
-        val settingsDaoFactory: (() -> SettingsDao)? = null
+        val settingsDaoFactory: (() -> PropertiesSettingsDao)? = null
     )
 }

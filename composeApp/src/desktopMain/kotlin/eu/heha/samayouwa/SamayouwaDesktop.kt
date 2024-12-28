@@ -2,7 +2,7 @@ package eu.heha.samayouwa
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import eu.heha.samayouwa.model.DataStoreSettingsDao
+import eu.heha.samayouwa.model.PropertiesSettingsDao
 import kotlinx.io.files.Path
 import org.jetbrains.compose.resources.painterResource
 import samayouwa.composeapp.generated.resources.Res
@@ -13,7 +13,7 @@ fun main() {
     App.initialize(
         App.Requirements(
             settingsDaoFactory = {
-                val jarFilePath = App::class.java.protectionDomain.codeSource.location.file
+                val jarFilePath = App::class.java.protectionDomain!!.codeSource.location.file
                     .replace("%20", " ")// as an uri it escapes spaces TODO: automate decode url
 
                 val rootFile = File(jarFilePath)
@@ -23,7 +23,7 @@ fun main() {
                 val dataFolder = File(rootFile, "data")
                     .also { it.mkdirs() }
 
-                DataStoreSettingsDao(Path(dataFolder.path))
+                PropertiesSettingsDao(Path(dataFolder.path))
             }
         )
     )
