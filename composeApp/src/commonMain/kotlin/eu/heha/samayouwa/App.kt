@@ -14,6 +14,8 @@ object App {
 
     private lateinit var requirements: Requirements
 
+    private var onClickPreferences: (() -> Unit)? = null
+
     val settingsDaoFactory get() = requirements.settingsDaoFactory
 
     fun initialize(requirements: Requirements) {
@@ -26,6 +28,14 @@ object App {
         AppTheme {
             BounceRoute()
         }
+    }
+
+    fun triggerPreferences() {
+        onClickPreferences?.invoke()
+    }
+
+    fun registerOnClickPreferences(onClick: () -> Unit) {
+        onClickPreferences = onClick
     }
 
     data class Requirements(

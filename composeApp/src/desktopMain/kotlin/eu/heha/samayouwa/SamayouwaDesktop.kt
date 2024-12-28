@@ -7,9 +7,13 @@ import kotlinx.io.files.Path
 import org.jetbrains.compose.resources.painterResource
 import samayouwa.composeapp.generated.resources.Res
 import samayouwa.composeapp.generated.resources.icon
+import java.awt.Desktop
 import java.io.File
 
 fun main() {
+    if (currentOS == OS.MacOS) {
+        System.setProperty("apple.awt.application.appearance", "system")
+    }
     App.initialize(
         App.Requirements(
             settingsDaoFactory = {
@@ -27,6 +31,14 @@ fun main() {
             }
         )
     )
+
+    val desktop = Desktop.getDesktop()
+    if (desktop.isSupported(Desktop.Action.APP_PREFERENCES)) {
+        desktop.setPreferencesHandler {
+            App.triggerPreferences()
+        }
+    }
+
     application {
         Window(
             onCloseRequest = ::exitApplication,
