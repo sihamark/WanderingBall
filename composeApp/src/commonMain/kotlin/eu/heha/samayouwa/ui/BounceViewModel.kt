@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import eu.heha.samayouwa.App
+import eu.heha.samayouwa.SamayouwaApp
 import eu.heha.samayouwa.model.Settings
 import eu.heha.samayouwa.model.SettingsRepository
 import kotlinx.coroutines.Dispatchers
@@ -26,7 +26,7 @@ class BounceViewModel : ViewModel() {
     private var isDecreasing = false
 
     init {
-        App.registerOnClickPreferences {
+        SamayouwaApp.registerOnClickPreferences {
             showSettingsDialog()
         }
         viewModelScope.launch {

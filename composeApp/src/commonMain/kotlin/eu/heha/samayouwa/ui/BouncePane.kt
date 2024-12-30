@@ -52,7 +52,7 @@ import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import eu.heha.samayouwa.App
+import eu.heha.samayouwa.SamayouwaApp
 import eu.heha.samayouwa.model.Settings
 import eu.heha.samayouwa.model.SettingsRepository
 
@@ -147,9 +147,9 @@ fun BouncePane(
                 )
             }
 
-            if (App.debugString.isNotBlank()) {
+            if (SamayouwaApp.debugString.isNotBlank()) {
                 Surface(Modifier.align(Alignment.BottomStart)) {
-                    Text(App.debugString, modifier = Modifier.padding(8.dp))
+                    Text(SamayouwaApp.debugString, modifier = Modifier.padding(8.dp))
                 }
             }
         }

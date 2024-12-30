@@ -1,13 +1,13 @@
 package eu.heha.samayouwa.model
 
-import eu.heha.samayouwa.App
+import eu.heha.samayouwa.SamayouwaApp
 import eu.heha.samayouwa.ui.specificColor
 import eu.heha.samayouwa.ui.themeColor
 import io.github.aakira.napier.Napier
 
 object SettingsRepository {
 
-    private var settingsDao = App.settingsDaoFactory?.invoke()
+    private var settingsDao = SamayouwaApp.settingsDaoFactory?.invoke()
 
     suspend fun loadSettings(): Settings = try {
         settingsDao?.loadSettings() ?: Settings()

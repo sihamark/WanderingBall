@@ -8,7 +8,7 @@ import io.github.aakira.napier.Antilog
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
 
-object App {
+object SamayouwaApp {
 
     var debugString = ""
 

@@ -14,10 +14,11 @@ fun main() {
     if (currentOS == OS.MacOS) {
         System.setProperty("apple.awt.application.appearance", "system")
     }
-    App.initialize(
-        App.Requirements(
+    SamayouwaApp.initialize(
+        SamayouwaApp.Requirements(
             settingsDaoFactory = {
-                val jarFilePath = App::class.java.protectionDomain!!.codeSource.location.file
+                val jarFilePath =
+                    SamayouwaApp::class.java.protectionDomain!!.codeSource.location.file
                     .replace("%20", " ")// as an uri it escapes spaces TODO: automate decode url
 
                 val rootFile = File(jarFilePath)
@@ -35,7 +36,7 @@ fun main() {
     val desktop = Desktop.getDesktop()
     if (desktop.isSupported(Desktop.Action.APP_PREFERENCES)) {
         desktop.setPreferencesHandler {
-            App.triggerPreferences()
+            SamayouwaApp.triggerPreferences()
         }
     }
 
@@ -45,7 +46,7 @@ fun main() {
             title = "Samayou Wa",
             icon = painterResource(Res.drawable.icon)
         ) {
-            App.Content()
+            SamayouwaApp.Content()
         }
     }
 }

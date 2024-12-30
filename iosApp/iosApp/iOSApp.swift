@@ -3,8 +3,9 @@ import ComposeApp
 
 @main
 struct iOSApp: App {
+    
     init() {
-        IosMain.shared.initalize()
+        SamayouwaIosApp.shared.initalize()
     }
     
     var body: some Scene {

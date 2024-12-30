@@ -8,10 +8,10 @@ import platform.Foundation.NSFileManager
 import platform.Foundation.NSSearchPathForDirectoriesInDomains
 import platform.Foundation.NSUserDomainMask
 
-object IosMain {
+object SamayouwaIosApp {
     fun initialize() {
-        App.initialize(
-            App.Requirements(
+        SamayouwaApp.initialize(
+            SamayouwaApp.Requirements(
                 settingsDaoFactory = {
                     val folder = Path(iosDirPath("data"))
                     PropertiesSettingsDao(folder)
