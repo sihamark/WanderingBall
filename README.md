@@ -14,7 +14,7 @@ The user can adjust different settings:
 ## Current Status
 
 Currently the app is tested for desktop on windows and macos.
-Wasm and android is sporadically tested while iosApp is prepared but not tested at all.
+Wasm, android and ios is sporadically tested.
 
 ## General Project Layout
 
