@@ -21,7 +21,7 @@ object SamayouwaIosApp {
     }
 
     @OptIn(ExperimentalForeignApi::class)
-    fun iosDirPath(folder:String):String{
+    private fun iosDirPath(folder: String): String {
         val paths = NSSearchPathForDirectoriesInDomains(
             NSApplicationSupportDirectory,
             NSUserDomainMask,
