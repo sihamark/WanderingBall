@@ -9,7 +9,7 @@ import kotlinx.io.files.SystemFileSystem
 import kotlinx.io.readString
 import kotlinx.io.writeString
 
-class DataStoreSettingsDao(folder: Path) : SettingsDao {
+class PropertiesSettingsDao(folder: Path) : SettingsDao {
 
     private val settingsFile = Path(folder, SETTINGS_FILE_NAME)
 

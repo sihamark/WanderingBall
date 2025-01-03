@@ -6,8 +6,8 @@ import kotlinx.browser.document
 
 @OptIn(ExperimentalComposeUiApi::class)
 fun main() {
-    App.initialize(App.Requirements())
+    SamayouwaApp.initialize(SamayouwaApp.Requirements())
     ComposeViewport(document.body!!) {
-        App.Content()
+        SamayouwaApp.Content()
     }
 }

@@ -1,8 +1,10 @@
 # Changelog
 
-## [1.1.2] - 2021-XX-XX
+## [1.1.x] - xxxx-xx-xx
 
-- updated dependencies
+- updated dependencies to latest versions
+- renamed some classes to avoid confusion
+- fixed ios build
 
 ## [1.1.1] - 2021-12-10
 

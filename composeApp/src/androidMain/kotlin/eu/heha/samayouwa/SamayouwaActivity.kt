@@ -17,7 +17,7 @@ class SamayouwaActivity : ComponentActivity() {
         )
 
         setContent {
-            App.Content()
+            SamayouwaApp.Content()
         }
     }
 }

@@ -2,18 +2,23 @@ package eu.heha.samayouwa
 
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
-import eu.heha.samayouwa.model.DataStoreSettingsDao
+import eu.heha.samayouwa.model.PropertiesSettingsDao
 import kotlinx.io.files.Path
 import org.jetbrains.compose.resources.painterResource
 import samayouwa.composeapp.generated.resources.Res
 import samayouwa.composeapp.generated.resources.icon
+import java.awt.Desktop
 import java.io.File
 
 fun main() {
-    App.initialize(
-        App.Requirements(
+    if (currentOS == OS.MacOS) {
+        System.setProperty("apple.awt.application.appearance", "system")
+    }
+    SamayouwaApp.initialize(
+        SamayouwaApp.Requirements(
             settingsDaoFactory = {
-                val jarFilePath = App::class.java.protectionDomain.codeSource.location.file
+                val jarFilePath =
+                    SamayouwaApp::class.java.protectionDomain!!.codeSource.location.file
                     .replace("%20", " ")// as an uri it escapes spaces TODO: automate decode url
 
                 val rootFile = File(jarFilePath)
@@ -23,17 +28,25 @@ fun main() {
                 val dataFolder = File(rootFile, "data")
                     .also { it.mkdirs() }
 
-                DataStoreSettingsDao(Path(dataFolder.path))
+                PropertiesSettingsDao(Path(dataFolder.path))
             }
         )
     )
+
+    val desktop = Desktop.getDesktop()
+    if (desktop.isSupported(Desktop.Action.APP_PREFERENCES)) {
+        desktop.setPreferencesHandler {
+            SamayouwaApp.triggerPreferences()
+        }
+    }
+
     application {
         Window(
             onCloseRequest = ::exitApplication,
             title = "Samayou Wa",
             icon = painterResource(Res.drawable.icon)
         ) {
-            App.Content()
+            SamayouwaApp.Content()
         }
     }
 }
